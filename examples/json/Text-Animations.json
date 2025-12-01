@@ -1,0 +1,456 @@
+{
+  "projectSettings": {
+    "width": 1920,
+    "height": 1080,
+    "frameRate": 30,
+    "duration": 450,
+    "bitsPerChannel": 8
+  },
+  "assets": [],
+  "compositions": [
+    {
+      "name": "Comp_1_FadeUp",
+      "width": 1920,
+      "height": 1080,
+      "frameRate": 30,
+      "duration": 90,
+      "layers": [
+        {
+          "name": "Text_FadeUp",
+          "type": "Text",
+          "sourceText": "Elegant Fade Up",
+          "properties": {
+            "Transform.Position": {
+              "value": [
+                960,
+                540
+              ]
+            },
+            "Source Text": {
+              "font": "Arial-BoldMT",
+              "fontSize": 100,
+              "justification": "Center",
+              "fillColor": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "textAnimators": [
+            {
+              "name": "Animate Position Opacity",
+              "animatorProperties": [
+                {
+                  "property": "Position",
+                  "value_data": {
+                    "value": [
+                      0,
+                      100
+                    ]
+                  }
+                },
+                {
+                  "property": "Opacity",
+                  "value_data": {
+                    "value": 0
+                  }
+                }
+              ],
+              "selectors": [
+                {
+                  "name": "Range Selector 1",
+                  "properties": {
+                    "Start": {
+                      "value": 0,
+                      "animated": true,
+                      "keyframes": [
+                        {
+                          "time": 0,
+                          "value": 0
+                        },
+                        {
+                          "time": 2,
+                          "value": 100
+                        }
+                      ]
+                    },
+                    "Advanced": {
+                      "Shape": {
+                        "value": 1
+                      },
+                      "Ease High": {
+                        "value": 50
+                      },
+                      "Ease Low": {
+                        "value": 50
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Comp_2_Cinematic",
+      "width": 1920,
+      "height": 1080,
+      "frameRate": 30,
+      "duration": 90,
+      "layers": [
+        {
+          "name": "Text_Cinematic",
+          "type": "Text",
+          "sourceText": "CINEMATIC TRACKING",
+          "properties": {
+            "Transform.Position": {
+              "value": [
+                960,
+                540
+              ]
+            },
+            "Source Text": {
+              "font": "Arial-BoldMT",
+              "fontSize": 80,
+              "justification": "Center",
+              "fillColor": [
+                1,
+                1,
+                1
+              ],
+              "tracking": 100
+            }
+          },
+          "textAnimators": [
+            {
+              "name": "Animate Tracking Opacity",
+              "animatorProperties": [
+                {
+                  "property": "Tracking Amount",
+                  "value_data": {
+                    "value": 50
+                  }
+                },
+                {
+                  "property": "Opacity",
+                  "value_data": {
+                    "value": 0
+                  }
+                }
+              ],
+              "selectors": [
+                {
+                  "name": "Range Selector 1",
+                  "properties": {
+                    "Start": {
+                      "value": 0,
+                      "animated": true,
+                      "keyframes": [
+                        {
+                          "time": 0,
+                          "value": 0
+                        },
+                        {
+                          "time": 3,
+                          "value": 100
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Comp_3_PopScale",
+      "width": 1920,
+      "height": 1080,
+      "frameRate": 30,
+      "duration": 90,
+      "layers": [
+        {
+          "name": "Text_Pop",
+          "type": "Text",
+          "sourceText": "Pop Scale",
+          "properties": {
+            "Transform.Position": {
+              "value": [
+                960,
+                540
+              ]
+            },
+            "Source Text": {
+              "font": "Arial-BoldMT",
+              "fontSize": 120,
+              "justification": "Center",
+              "fillColor": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "textAnimators": [
+            {
+              "name": "Animate Scale",
+              "animatorProperties": [
+                {
+                  "property": "Scale",
+                  "value_data": {
+                    "value": [
+                      0,
+                      0
+                    ]
+                  }
+                }
+              ],
+              "selectors": [
+                {
+                  "name": "Range Selector 1",
+                  "properties": {
+                    "Start": {
+                      "value": 0,
+                      "animated": true,
+                      "keyframes": [
+                        {
+                          "time": 0,
+                          "value": 0
+                        },
+                        {
+                          "time": 1.5,
+                          "value": 100
+                        }
+                      ]
+                    },
+                    "Advanced": {
+                      "Shape": {
+                        "value": 2
+                      },
+                      "Ease High": {
+                        "value": -50
+                      },
+                      "Ease Low": {
+                        "value": 50
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Comp_4_FlyIn",
+      "width": 1920,
+      "height": 1080,
+      "frameRate": 30,
+      "duration": 90,
+      "layers": [
+        {
+          "name": "Text_FlyIn",
+          "type": "Text",
+          "sourceText": "Random Fly-In",
+          "properties": {
+            "Transform.Position": {
+              "value": [
+                960,
+                540
+              ]
+            },
+            "Source Text": {
+              "font": "Arial-BoldMT",
+              "fontSize": 100,
+              "justification": "Center",
+              "fillColor": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "textAnimators": [
+            {
+              "name": "Animate Position",
+              "animatorProperties": [
+                {
+                  "property": "Position",
+                  "value_data": {
+                    "value": [
+                      0,
+                      -800
+                    ]
+                  }
+                },
+                {
+                  "property": "Opacity",
+                  "value_data": {
+                    "value": 0
+                  }
+                }
+              ],
+              "selectors": [
+                {
+                  "name": "Range Selector 1",
+                  "properties": {
+                    "Start": {
+                      "value": 0,
+                      "animated": true,
+                      "keyframes": [
+                        {
+                          "time": 0,
+                          "value": 0
+                        },
+                        {
+                          "time": 1.5,
+                          "value": 100
+                        }
+                      ]
+                    },
+                    "Advanced": {
+                      "Randomize Order": {
+                        "value": 1
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Comp_5_BlurReveal",
+      "width": 1920,
+      "height": 1080,
+      "frameRate": 30,
+      "duration": 90,
+      "layers": [
+        {
+          "name": "Text_Blur",
+          "type": "Text",
+          "sourceText": "Blurry Reveal",
+          "properties": {
+            "Transform.Position": {
+              "value": [
+                960,
+                540
+              ]
+            },
+            "Source Text": {
+              "font": "Arial-BoldMT",
+              "fontSize": 100,
+              "justification": "Center",
+              "fillColor": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "textAnimators": [
+            {
+              "name": "Animate Blur Opacity",
+              "animatorProperties": [
+                {
+                  "property": "Blur",
+                  "value_data": {
+                    "value": [
+                      50,
+                      50
+                    ]
+                  }
+                },
+                {
+                  "property": "Opacity",
+                  "value_data": {
+                    "value": 0
+                  }
+                }
+              ],
+              "selectors": [
+                {
+                  "name": "Range Selector 1",
+                  "properties": {
+                    "Start": {
+                      "value": 0,
+                      "animated": true,
+                      "keyframes": [
+                        {
+                          "time": 0,
+                          "value": 0
+                        },
+                        {
+                          "time": 2,
+                          "value": 100
+                        }
+                      ]
+                    },
+                    "Advanced": {
+                      "Shape": {
+                        "value": 2
+                      },
+                      "Ease High": {
+                        "value": 50
+                      },
+                      "Ease Low": {
+                        "value": 50
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Main",
+      "width": 1920,
+      "height": 1080,
+      "frameRate": 30,
+      "duration": 450,
+      "layers": [
+        {
+          "name": "Comp_5_BlurReveal",
+          "type": "Pre-comp",
+          "refId": "Comp_5_BlurReveal",
+          "startTime": 12
+        },
+        {
+          "name": "Comp_4_FlyIn",
+          "type": "Pre-comp",
+          "refId": "Comp_4_FlyIn",
+          "startTime": 9
+        },
+        {
+          "name": "Comp_3_PopScale",
+          "type": "Pre-comp",
+          "refId": "Comp_3_PopScale",
+          "startTime": 6
+        },
+        {
+          "name": "Comp_2_Cinematic",
+          "type": "Pre-comp",
+          "refId": "Comp_2_Cinematic",
+          "startTime": 3
+        },
+        {
+          "name": "Comp_1_FadeUp",
+          "type": "Pre-comp",
+          "refId": "Comp_1_FadeUp",
+          "startTime": 0
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,500 @@
+/*************************************************************************
+ * engine_library.jsxinc
+ *
+ * Description: The Artist Library v3.1.
+ * FEATURES: Safe Text Animators, Robust Alignment, 3D Safety.
+ *************************************************************************/
+
+var AEGP = AEGP || {};
+
+// --- TEXT ANIMATOR BUILDER (CRASH-PROOF) ---
+AEGP.buildTextAnimators = function(textLayer, animatorsData, markersMap, layerInPoint) {
+    if (!textLayer || !textLayer.property("Text") || !textLayer.property("Text").property("Animators")) return;
+    var textAnimators = textLayer.property("Text").property("Animators");
+    
+    // Helper: Tries multiple names to find the correct property MatchName
+    function addSafeAnimatorProperty(propGroup, propName) {
+        var candidates = [];
+        var name = propName.toLowerCase();
+        if (name.indexOf("position") > -1) candidates = ["ADBE Text Position 3D", "ADBE Text Position", "Position"];
+        else if (name.indexOf("scale") > -1) candidates = ["ADBE Text Scale 3D", "ADBE Text Scale", "Scale"];
+        else if (name.indexOf("rotation") > -1) candidates = ["ADBE Text Rotation", "Rotation", "ADBE Text Rotation X", "ADBE Text Rotation Y"];
+        else if (name.indexOf("opacity") > -1) candidates = ["ADBE Text Opacity", "Opacity"];
+        else if (name.indexOf("fill") > -1 && name.indexOf("color") > -1) candidates = ["ADBE Text Fill Color", "Fill Color"];
+        else if (name.indexOf("stroke") > -1 && name.indexOf("color") > -1) candidates = ["ADBE Text Stroke Color", "Stroke Color"];
+        else candidates = [propName, "ADBE Text " + propName];
+
+        for (var c = 0; c < candidates.length; c++) {
+            try {
+                var newProp = propGroup.addProperty(candidates[c]);
+                if (newProp) return newProp;
+            } catch(e) {}
+        }
+        return null;
+    }
+
+    for (var i = 0; i < animatorsData.length; i++) {
+        var animData = animatorsData[i];
+        var newAnimator = textAnimators.addProperty("ADBE Text Animator");
+        newAnimator.name = animData.name || "Animator " + (i + 1);
+
+        if (animData.animatorProperties) {
+            var animatorPropsGroup = newAnimator.property("ADBE Text Animator Properties");
+            for (var j = 0; j < animData.animatorProperties.length; j++) {
+                var propInfo = animData.animatorProperties[j];
+                if (propInfo.property) {
+                    var newProp = addSafeAnimatorProperty(animatorPropsGroup, propInfo.property);
+                    if (newProp && propInfo.value_data) {
+                        AEGP.applyValueToProperty(newProp, propInfo.value_data, propInfo.property, markersMap, layerInPoint);
+                    }
+                }
+            }
+        }
+        
+        if (animData.selectors) {
+             // Remove default selector if it exists to start fresh
+             try { if(newAnimator.property("Selectors").numProperties > 0) newAnimator.property("Selectors").property(1).remove(); } catch(e){}
+             
+            for (var s = 0; s < animData.selectors.length; s++) {
+                var selData = animData.selectors[s];
+                var newSelector = newAnimator.property("Selectors").addProperty("ADBE Text Selector"); // Range Selector
+                newSelector.name = selData.name || "Selector " + (s + 1);
+                if (selData.properties) {
+                    AEGP.applyPropertiesRecursive(newSelector, selData.properties, markersMap, layerInPoint);
+                }
+            }
+        }
+    }
+};
+
+// --- ALIGNMENT (Shapes, Text, & Footage) ---
+AEGP.applyAlignment = function(layer, alignData, comp) {
+    if (typeof alignData !== 'object' || !layer.property("Transform") || !layer.property("Transform").property("Position")) return;
+    
+    // 3D Layer Safety Check: Alignment logic is tricky for 3D, defaulting to 2D behavior primarily
+    var marginX = (alignData.margin && alignData.margin[0]) ? alignData.margin[0] : 0;
+    var marginY = (alignData.margin && alignData.margin[1]) ? alignData.margin[1] : 0;
+    var is3D = layer.threeDLayer;
+
+    var bounds = layer.sourceRectAtTime(layer.inPoint, false);
+    var width = bounds.width;
+    var height = bounds.height;
+    
+    // Adjust for scale
+    var scale = layer.property("Transform").property("Scale").value;
+    var sX = scale[0]/100; 
+    var sY = scale[1]/100;
+    
+    // Calculate Visual Center (Anchor Point centering)
+    if (layer instanceof ShapeLayer || layer instanceof TextLayer) {
+        var anchorProp = layer.property("Transform").property("Anchor Point");
+        var visualCenter = [bounds.left + width / 2, bounds.top + height / 2];
+        if (is3D) visualCenter.push(0); // Add Z for 3D
+        anchorProp.setValue(visualCenter);
+    }
+
+    var newX = comp.width / 2;
+    var newY = comp.height / 2;
+    var finalW = width * sX;
+    var finalH = height * sY;
+
+    switch(alignData.horizontal.toLowerCase()) {
+        case "left":   newX = finalW / 2; break;
+        case "right":  newX = comp.width - (finalW / 2); break;
+        case "center": newX = comp.width / 2; break;
+    }
+    switch(alignData.vertical.toLowerCase()) {
+        case "top":    newY = finalH / 2; break;
+        case "bottom": newY = comp.height - (finalH / 2); break;
+        case "center": newY = comp.height / 2; break;
+    }
+
+    var posValue = [newX + marginX, newY + marginY];
+    if (is3D) {
+        var currentPos = layer.property("Transform").property("Position").value;
+        posValue.push(currentPos[2]); // Keep existing Z
+    }
+    layer.property("Transform").property("Position").setValue(posValue);
+};
+
+// --- RECURSIVE PROPERTY APPLIER ---
+AEGP.applyPropertiesRecursive = function(parentAEObject, propertiesData, markersMap, layerInPoint) {
+    for (var propName in propertiesData) {
+        if (!propertiesData.hasOwnProperty(propName)) continue;
+        if (propName === "Contents" && parentAEObject.property("Contents")) {
+            AEGP.buildShapeContents(parentAEObject, propertiesData[propName], markersMap, layerInPoint);
+            continue;
+        }
+        if (propName === "sourceParameters") continue; 
+
+        var finalProperty = parentAEObject;
+        var propPath = propName.split('.');
+        
+        // Traversal
+        for (var i = 0; i < propPath.length; i++) {
+            if (finalProperty && finalProperty.property(propPath[i])) {
+                finalProperty = finalProperty.property(propPath[i]);
+            } else {
+                finalProperty = null; break;
+            }
+        }
+
+        if (finalProperty) {
+            var propData = propertiesData[propName];
+            if (propData.value !== undefined || propData.keyframes !== undefined || propData.expression !== undefined) {
+                AEGP.applyValueToProperty(finalProperty, propData, propPath[propPath.length - 1], markersMap, layerInPoint);
+            } else {
+                AEGP.applyPropertiesRecursive(finalProperty, propData, markersMap, layerInPoint);
+            }
+        }
+    }
+};
+
+// --- ATTRIBUTES (3D & Blending) ---
+AEGP.applyLayerAttributes = function(targetLayer, attributesData) {
+    try {
+        if (attributesData.solo !== undefined) targetLayer.solo = attributesData.solo;
+        if (attributesData.locked !== undefined) targetLayer.locked = attributesData.locked;
+        if (attributesData.shy !== undefined) targetLayer.shy = attributesData.shy;
+        if (attributesData.adjustmentLayer !== undefined) targetLayer.adjustmentLayer = attributesData.adjustmentLayer;
+        if (attributesData.motionBlur !== undefined) targetLayer.motionBlur = attributesData.motionBlur;
+        if (attributesData.threeD !== undefined) targetLayer.threeDLayer = attributesData.threeD;
+        if (attributesData.collapseTransformation !== undefined) targetLayer.collapseTransformation = attributesData.collapseTransformation;
+        if (attributesData.blendingMode !== undefined) targetLayer.blendingMode = AEGP.getBlendingMode(attributesData.blendingMode);
+    } catch (e) { $.writeln("Attribute Warning: " + e.toString()); }
+};
+
+// --- SHAPE BUILDER ---
+AEGP.buildShapeContents = function(shapeLayer, contentsData, markersMap, layerInPoint) {
+    if (!shapeLayer.property("Contents")) return;
+    var rootContents = shapeLayer.property("Contents");
+    for (var i = 0; i < contentsData.length; i++) {
+        var itemData = contentsData[i];
+        if (!itemData.type) continue;
+        try {
+            var matchName;
+            var t = itemData.type.toLowerCase().replace(/\s/g, '');
+            if (t == "rect") matchName = "ADBE Vector Shape - Rect";
+            else if (t == "ellipse") matchName = "ADBE Vector Shape - Ellipse";
+            else if (t == "polystar") matchName = "ADBE Vector Shape - Star";
+            else if (t == "path") matchName = "ADBE Vector Shape - Group";
+            else if (t == "fill") matchName = "ADBE Vector Graphic - Fill";
+            else if (t == "stroke") matchName = "ADBE Vector Graphic - Stroke";
+            else if (t == "trimpaths") matchName = "ADBE Vector Filter - Trim";
+            else if (t == "group") matchName = "ADBE Vector Group";
+            else continue; 
+
+            var shapeItem = rootContents.addProperty(matchName);
+            shapeItem.name = itemData.name || itemData.type;
+            if (itemData.properties) {
+                AEGP.applyPropertiesRecursive(shapeItem, itemData.properties, markersMap, layerInPoint);
+            }
+        } catch(e) { $.writeln("Shape Build Error: " + e.toString()); }
+    }
+};
+
+// --- VALUE APPLIER (Values, Keyframes, Expressions) ---
+AEGP.applyValueToProperty = function(targetProperty, data, propName, markersMap, layerInPoint) {
+    try {
+        if (data.expression !== undefined) {
+            targetProperty.expression = data.expression.toString();
+        } else if (data.keyframes !== undefined && data.keyframes.length > 0 && targetProperty.canVaryOverTime) {
+            var times = [], values = [];
+            for (var k = 0; k < data.keyframes.length; k++) {
+                var kd = data.keyframes[k];
+                var kTime = (typeof kd.time === 'string' && kd.time.indexOf(':') > -1) ? AEGP.resolveTimeValue(kd.time, markersMap) : (layerInPoint + parseFloat(kd.time));
+                times.push(kTime);
+                
+                if (typeof kd.value === 'object' && kd.value.vertices !== undefined) values.push(AEGP.createShapeFromData(kd.value));
+                else values.push(kd.value);
+            }
+            targetProperty.setValuesAtTimes(times, values);
+            
+            // Easing
+            for (var i = 0; i < data.keyframes.length; i++) {
+                var keyData = data.keyframes[i];
+                var keyIndex = i + 1;
+                if ((keyData.inEase || keyData.outEase) && targetProperty.setTemporalEaseAtKey) {
+                    var inEase = (keyData.inEase) ? new KeyframeEase(keyData.inEase.speed, keyData.inEase.influence) : targetProperty.keyInTemporalEase(keyIndex)[0];
+                    var outEase = (keyData.outEase) ? new KeyframeEase(keyData.outEase.speed, keyData.outEase.influence) : targetProperty.keyOutTemporalEase(keyIndex)[0];
+                    targetProperty.setTemporalEaseAtKey(keyIndex, [inEase], [outEase]);
+                }
+            }
+        } else if (data.value !== undefined) {
+            var val = data.value;
+            if (targetProperty.matchName === "ADBE Mask Shape" || targetProperty.matchName === "ADBE Vector Shape") {
+                targetProperty.setValue(AEGP.createShapeFromData(val));
+            } else if (targetProperty.matchName === "ADBE Text Document") {
+                // Text Document Logic
+                var textDoc = targetProperty.value;
+                if (typeof val === 'object') {
+                    if (val.font) textDoc.font = val.font;
+                    if (val.fontSize) textDoc.fontSize = val.fontSize;
+                    if (val.fillColor) { textDoc.fillColor = val.fillColor; textDoc.applyFill = true; }
+                    if (val.text) textDoc.text = val.text;
+                    if (val.justification) {
+                        var j = val.justification.toLowerCase();
+                        if(j.indexOf("center")>-1) textDoc.justification = ParagraphJustification.CENTER_JUSTIFY;
+                        else if(j.indexOf("right")>-1) textDoc.justification = ParagraphJustification.RIGHT_JUSTIFY;
+                        else textDoc.justification = ParagraphJustification.LEFT_JUSTIFY;
+                    }
+                } else { textDoc.text = val.toString(); }
+                targetProperty.setValue(textDoc);
+            } else {
+                targetProperty.setValue(val);
+            }
+        }
+    } catch (e) { $.writeln("Value Apply Error (" + targetProperty.name + "): " + e.toString()); }
+};
+
+// --- UTILITIES ---
+AEGP.resolveTimeValue = function(timeValue, markersMap) { 
+    if (typeof timeValue !== 'string') return timeValue;
+    if (timeValue.indexOf('marker:') === 0) {
+        var mName = timeValue.substring(7);
+        return (markersMap[mName] !== undefined) ? markersMap[mName] : 0;
+    }
+    // Basic eval for math (e.g. "2+2") - Use carefully
+    try { return eval(timeValue); } catch(e) { return 0; }
+};
+AEGP.getBlendingMode = function(m) { 
+    var s = m.toLowerCase().replace(/\s/g, ''); 
+    if (s=="add") return BlendingMode.ADD; 
+    if (s=="screen") return BlendingMode.SCREEN; 
+    if (s=="multiply") return BlendingMode.MULTIPLY; 
+    if (s=="overlay") return BlendingMode.OVERLAY; 
+    return BlendingMode.NORMAL; 
+};
+AEGP.getTrackMatteType = function(m) { 
+    // Returns modern ENUM for 2023+, acts as flag for Legacy
+    var s = m.toLowerCase();
+    if (s.indexOf("alpha") > -1) return TrackMatteType.ALPHA; 
+    if (s.indexOf("luma") > -1) return TrackMatteType.LUMA;
+    return TrackMatteType.NO_TRACK_MATTE; 
+};
+AEGP.createShapeFromData = function(d) { 
+    var s = new Shape(); 
+    s.vertices = d.vertices || []; 
+    s.inTangents = d.inTangents || []; 
+    s.outTangents = d.outTangents || []; 
+    s.closed = (d.isClosed === undefined) ? true : d.isClosed; 
+    return s; 
+};
+AEGP.applyMasks = function(layer, masks, markersMap, t) { 
+    for(var i=0; i<masks.length; i++) { 
+        var anchorProp = layer.property("Transform").property("Anchor Point");
+        var visualCenter = [bounds.left + width / 2, bounds.top + height / 2];
+        if (is3D) visualCenter.push(0); // Add Z for 3D
+        anchorProp.setValue(visualCenter);
+    }
+
+    var newX = comp.width / 2;
+    var newY = comp.height / 2;
+    var finalW = width * sX;
+    var finalH = height * sY;
+
+    switch(alignData.horizontal.toLowerCase()) {
+        case "left":   newX = finalW / 2; break;
+        case "right":  newX = comp.width - (finalW / 2); break;
+        case "center": newX = comp.width / 2; break;
+    }
+    switch(alignData.vertical.toLowerCase()) {
+        case "top":    newY = finalH / 2; break;
+        case "bottom": newY = comp.height - (finalH / 2); break;
+        case "center": newY = comp.height / 2; break;
+    }
+
+    var posValue = [newX + marginX, newY + marginY];
+    if (is3D) {
+        var currentPos = layer.property("Transform").property("Position").value;
+        posValue.push(currentPos[2]); // Keep existing Z
+    }
+    layer.property("Transform").property("Position").setValue(posValue);
+};
+
+// --- RECURSIVE PROPERTY APPLIER ---
+AEGP.applyPropertiesRecursive = function(parentAEObject, propertiesData, markersMap, layerInPoint) {
+    for (var propName in propertiesData) {
+        if (!propertiesData.hasOwnProperty(propName)) continue;
+        if (propName === "Contents" && parentAEObject.property("Contents")) {
+            AEGP.buildShapeContents(parentAEObject, propertiesData[propName], markersMap, layerInPoint);
+            continue;
+        }
+        if (propName === "sourceParameters") continue; 
+
+        var finalProperty = parentAEObject;
+        var propPath = propName.split('.');
+        
+        // Traversal
+        for (var i = 0; i < propPath.length; i++) {
+            if (finalProperty && finalProperty.property(propPath[i])) {
+                finalProperty = finalProperty.property(propPath[i]);
+            } else {
+                finalProperty = null; break;
+            }
+        }
+
+        if (finalProperty) {
+            var propData = propertiesData[propName];
+            if (propData.value !== undefined || propData.keyframes !== undefined || propData.expression !== undefined) {
+                AEGP.applyValueToProperty(finalProperty, propData, propPath[propPath.length - 1], markersMap, layerInPoint);
+            } else {
+                AEGP.applyPropertiesRecursive(finalProperty, propData, markersMap, layerInPoint);
+            }
+        }
+    }
+};
+
+// --- ATTRIBUTES (3D & Blending) ---
+AEGP.applyLayerAttributes = function(targetLayer, attributesData) {
+    try {
+        if (attributesData.solo !== undefined) targetLayer.solo = attributesData.solo;
+        if (attributesData.locked !== undefined) targetLayer.locked = attributesData.locked;
+        if (attributesData.shy !== undefined) targetLayer.shy = attributesData.shy;
+        if (attributesData.adjustmentLayer !== undefined) targetLayer.adjustmentLayer = attributesData.adjustmentLayer;
+        if (attributesData.motionBlur !== undefined) targetLayer.motionBlur = attributesData.motionBlur;
+        if (attributesData.threeD !== undefined) targetLayer.threeDLayer = attributesData.threeD;
+        if (attributesData.collapseTransformation !== undefined) targetLayer.collapseTransformation = attributesData.collapseTransformation;
+        if (attributesData.blendingMode !== undefined) targetLayer.blendingMode = AEGP.getBlendingMode(attributesData.blendingMode);
+    } catch (e) { $.writeln("Attribute Warning: " + e.toString()); }
+};
+
+// --- SHAPE BUILDER ---
+AEGP.buildShapeContents = function(shapeLayer, contentsData, markersMap, layerInPoint) {
+    if (!shapeLayer.property("Contents")) return;
+    var rootContents = shapeLayer.property("Contents");
+    for (var i = 0; i < contentsData.length; i++) {
+        var itemData = contentsData[i];
+        if (!itemData.type) continue;
+        try {
+            var matchName;
+            var t = itemData.type.toLowerCase().replace(/\s/g, '');
+            if (t == "rect") matchName = "ADBE Vector Shape - Rect";
+            else if (t == "ellipse") matchName = "ADBE Vector Shape - Ellipse";
+            else if (t == "polystar") matchName = "ADBE Vector Shape - Star";
+            else if (t == "path") matchName = "ADBE Vector Shape - Group";
+            else if (t == "fill") matchName = "ADBE Vector Graphic - Fill";
+            else if (t == "stroke") matchName = "ADBE Vector Graphic - Stroke";
+            else if (t == "trimpaths") matchName = "ADBE Vector Filter - Trim";
+            else if (t == "group") matchName = "ADBE Vector Group";
+            else continue; 
+
+            var shapeItem = rootContents.addProperty(matchName);
+            shapeItem.name = itemData.name || itemData.type;
+            if (itemData.properties) {
+                AEGP.applyPropertiesRecursive(shapeItem, itemData.properties, markersMap, layerInPoint);
+            }
+        } catch(e) { $.writeln("Shape Build Error: " + e.toString()); }
+    }
+};
+
+// --- VALUE APPLIER (Values, Keyframes, Expressions) ---
+AEGP.applyValueToProperty = function(targetProperty, data, propName, markersMap, layerInPoint) {
+    try {
+        if (data.expression !== undefined) {
+            targetProperty.expression = data.expression.toString();
+        } else if (data.keyframes !== undefined && data.keyframes.length > 0 && targetProperty.canVaryOverTime) {
+            var times = [], values = [];
+            for (var k = 0; k < data.keyframes.length; k++) {
+                var kd = data.keyframes[k];
+                var kTime = (typeof kd.time === 'string' && kd.time.indexOf(':') > -1) ? AEGP.resolveTimeValue(kd.time, markersMap) : (layerInPoint + parseFloat(kd.time));
+                times.push(kTime);
+                
+                if (typeof kd.value === 'object' && kd.value.vertices !== undefined) values.push(AEGP.createShapeFromData(kd.value));
+                else values.push(kd.value);
+            }
+            targetProperty.setValuesAtTimes(times, values);
+            
+            // Easing
+            for (var i = 0; i < data.keyframes.length; i++) {
+                var keyData = data.keyframes[i];
+                var keyIndex = i + 1;
+                if ((keyData.inEase || keyData.outEase) && targetProperty.setTemporalEaseAtKey) {
+                    var inEase = (keyData.inEase) ? new KeyframeEase(keyData.inEase.speed, keyData.inEase.influence) : targetProperty.keyInTemporalEase(keyIndex)[0];
+                    var outEase = (keyData.outEase) ? new KeyframeEase(keyData.outEase.speed, keyData.outEase.influence) : targetProperty.keyOutTemporalEase(keyIndex)[0];
+                    targetProperty.setTemporalEaseAtKey(keyIndex, [inEase], [outEase]);
+                }
+            }
+        } else if (data.value !== undefined) {
+            var val = data.value;
+            if (targetProperty.matchName === "ADBE Mask Shape" || targetProperty.matchName === "ADBE Vector Shape") {
+                targetProperty.setValue(AEGP.createShapeFromData(val));
+            } else if (targetProperty.matchName === "ADBE Text Document") {
+                // Text Document Logic
+                var textDoc = targetProperty.value;
+                if (typeof val === 'object') {
+                    if (val.font) textDoc.font = val.font;
+                    if (val.fontSize) textDoc.fontSize = val.fontSize;
+                    if (val.fillColor) { textDoc.fillColor = val.fillColor; textDoc.applyFill = true; }
+                    if (val.text) textDoc.text = val.text;
+                    if (val.justification) {
+                        var j = val.justification.toLowerCase();
+                        if(j.indexOf("center")>-1) textDoc.justification = ParagraphJustification.CENTER_JUSTIFY;
+                        else if(j.indexOf("right")>-1) textDoc.justification = ParagraphJustification.RIGHT_JUSTIFY;
+                        else textDoc.justification = ParagraphJustification.LEFT_JUSTIFY;
+                    }
+                } else { textDoc.text = val.toString(); }
+                targetProperty.setValue(textDoc);
+            } else {
+                targetProperty.setValue(val);
+            }
+        }
+    } catch (e) { $.writeln("Value Apply Error (" + targetProperty.name + "): " + e.toString()); }
+};
+
+// --- UTILITIES ---
+AEGP.resolveTimeValue = function(timeValue, markersMap) { 
+    if (typeof timeValue !== 'string') return timeValue;
+    if (timeValue.indexOf('marker:') === 0) {
+        var mName = timeValue.substring(7);
+        return (markersMap[mName] !== undefined) ? markersMap[mName] : 0;
+    }
+    // Basic eval for math (e.g. "2+2") - Use carefully
+    try { return eval(timeValue); } catch(e) { return 0; }
+};
+AEGP.getBlendingMode = function(m) { 
+    var s = m.toLowerCase().replace(/\s/g, ''); 
+    if (s=="add") return BlendingMode.ADD; 
+    if (s=="screen") return BlendingMode.SCREEN; 
+    if (s=="multiply") return BlendingMode.MULTIPLY; 
+    if (s=="overlay") return BlendingMode.OVERLAY; 
+    return BlendingMode.NORMAL; 
+};
+AEGP.getTrackMatteType = function(m) { 
+    // Returns modern ENUM for 2023+, acts as flag for Legacy
+    var s = m.toLowerCase();
+    if (s.indexOf("alpha") > -1) return TrackMatteType.ALPHA; 
+    if (s.indexOf("luma") > -1) return TrackMatteType.LUMA;
+    return TrackMatteType.NO_TRACK_MATTE; 
+};
+AEGP.createShapeFromData = function(d) { 
+    var s = new Shape(); 
+    s.vertices = d.vertices || []; 
+    s.inTangents = d.inTangents || []; 
+    s.outTangents = d.outTangents || []; 
+    s.closed = (d.isClosed === undefined) ? true : d.isClosed; 
+    return s; 
+};
+AEGP.applyMasks = function(layer, masks, markersMap, t) { 
+    for(var i=0; i<masks.length; i++) { 
+        var nm = layer.Masks.addProperty("ADBE Mask Atom"); 
+        nm.name = masks[i].name || "Mask "+(i+1); 
+        if(masks[i].path) AEGP.applyValueToProperty(nm.property("ADBE Mask Shape"), masks[i].path, "", markersMap, t); 
+    } 
+};
+AEGP.applyEffects = function(layer, fx, markersMap, t) { 
+    for(var i=0; i<fx.length; i++) { 
+        var e = layer.Effects.addProperty(fx[i].matchName); 
+        if(e) { 
+            e.name = fx[i].name || e.name; 
+            for(var j=0; j<fx[i].properties.length; j++) { 
+                var p = fx[i].properties[j]; 
+                var targetProp = null;
+                if (p.index && e.property(p.index)) targetProp = e.property(p.index);
+                else if (p.name && e.property(p.name)) targetProp = e.property(p.name);
+                
+                if (targetProp) AEGP.applyValueToProperty(targetProp, p.value_data, "", markersMap, t); 
+            } 
+        } 
+    } 
+};

@@ -1,0 +1,53 @@
+projectSettings:
+  width: 1920
+  height: 1080
+  frameRate: 24
+  duration: 1
+
+compositions:
+  - name: "Text_Anim"
+    width: 1920
+    height: 1080
+    frameRate: 24
+    duration: 1
+    layers:
+      - name: "Motion."
+        type: "Text"
+        sourceText: "Motion."
+        inPoint: 0
+        outPoint: 1
+        startTime: 0
+        properties:
+          Transform:
+            Position: { value: [958.92578125, 237.818356633186, 0] }
+            X Position: { value: 0 }
+            Y Position: { value: 0 }
+          Text:
+            Source Text:
+              value:
+                text: "Motion."
+                font: "Arial-Black"
+                fontSize: 200
+                fillColor: [0, 0.34701001644135, 0.95765000581741]
+                justification: "CENTER"
+        textAnimators:
+          - name: "Animator 1"
+            animatorProperties:
+              - property: "Position"
+                value_data: { value: [0, 100, 0] }
+              - property: "Opacity"
+                value_data: { value: 0 }
+            selectors:
+              - name: "Range Selector 1"
+                properties:
+                  Offset:
+                    animated: true
+                    keyframes:
+                      - { time: 0, value: -100 }
+                      - { time: 0.58333333333333, value: 100 }
+                  Advanced:
+                    properties:
+                      Mode: { value: 6 }
+                      Shape: { value: 2 }
+                      Ease High: { value: 100 }
+                      Ease Low: { value: 100 }

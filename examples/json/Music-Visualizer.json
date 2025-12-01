@@ -1,0 +1,414 @@
+{
+  "projectSettings": {
+    "width": 1920,
+    "height": 1080,
+    "frameRate": 30,
+    "duration": 180,
+    "bitsPerChannel": 16
+  },
+  "assets": [
+    {
+      "id": "asset_bg",
+      "path": "E:\\Python\\changed\\TechBG_fixed.png"
+    },
+    {
+      "id": "asset_logo",
+      "path": "E:\\Python\\changed\\Logo_fixed.png"
+    },
+    {
+      "id": "asset_audio",
+      "path": "../../Data/Sound/Sound.mp3"
+    }
+  ],
+  "compositions": [
+    {
+      "name": "Song",
+      "width": 1920,
+      "height": 1080,
+      "frameRate": 30,
+      "duration": 180,
+      "layers": [
+        {
+          "name": "Audio Amplitude",
+          "type": "Null",
+          "properties": {
+            "Transform.Position": {
+              "value": [
+                960,
+                540
+              ]
+            }
+          },
+          "effects": [
+            {
+              "matchName": "ADBE Slider Control",
+              "name": "Both Channels",
+              "properties": [
+                {
+                  "index": 1,
+                  "value_data": {
+                    "value": 0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Sound",
+          "type": "Audio",
+          "assetId": "asset_audio"
+        }
+      ]
+    },
+    {
+      "name": "Logo_Comp",
+      "width": 1080,
+      "height": 1080,
+      "frameRate": 30,
+      "duration": 180,
+      "layers": [
+        {
+          "name": "Matte",
+          "type": "Solid",
+          "properties": {
+            "sourceParameters": {
+              "color": [
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          "effects": [
+            {
+              "matchName": "ADBE Circle",
+              "name": "Circle",
+              "properties": [
+                {
+                  "index": 1,
+                  "value_data": {
+                    "value": [
+                      540,
+                      540
+                    ]
+                  }
+                },
+                {
+                  "index": 2,
+                  "value_data": {
+                    "value": 500
+                  }
+                },
+                {
+                  "index": 10,
+                  "value_data": {
+                    "value": [
+                      1,
+                      1,
+                      1,
+                      1
+                    ]
+                  }
+                },
+                {
+                  "index": 12,
+                  "value_data": {
+                    "value": 2
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Logo",
+          "type": "Footage",
+          "assetId": "asset_logo",
+          "properties": {
+            "Transform.Position": {
+              "value": [
+                540,
+                540
+              ]
+            }
+          },
+          "attributes": {
+            "trackMatte": {
+              "layer": "Matte",
+              "mode": "Luma"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Visualizer_PreComp",
+      "width": 1920,
+      "height": 1080,
+      "frameRate": 30,
+      "duration": 180,
+      "layers": [
+        {
+          "name": "Sound",
+          "type": "Audio",
+          "assetId": "asset_audio"
+        },
+        {
+          "name": "Audio Spectrum",
+          "type": "Solid",
+          "properties": {
+            "sourceParameters": {
+              "color": [
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          "effects": [
+            {
+              "matchName": "ADBE AudSpect",
+              "name": "Audio Spectrum",
+              "properties": [
+                {
+                  "index": 1,
+                  "value_data": {
+                    "value": 3
+                  }
+                },
+                {
+                  "index": 2,
+                  "value_data": {
+                    "value": [
+                      0,
+                      540
+                    ]
+                  }
+                },
+                {
+                  "index": 3,
+                  "value_data": {
+                    "value": [
+                      960,
+                      540
+                    ]
+                  }
+                },
+                {
+                  "index": 7,
+                  "value_data": {
+                    "value": 125
+                  }
+                },
+                {
+                  "index": 9,
+                  "value_data": {
+                    "value": 1250
+                  }
+                },
+                {
+                  "index": 12,
+                  "value_data": {
+                    "value": 7
+                  }
+                },
+                {
+                  "index": 21,
+                  "value_data": {
+                    "value": 2
+                  }
+                },
+                {
+                  "index": 14,
+                  "value_data": {
+                    "value": [
+                      1,
+                      1,
+                      1
+                    ]
+                  }
+                },
+                {
+                  "index": 15,
+                  "value_data": {
+                    "value": [
+                      1,
+                      1,
+                      1
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "matchName": "ADBE Polar Coordinates",
+              "name": "Polar Coordinates",
+              "properties": [
+                {
+                  "index": 2,
+                  "value_data": {
+                    "value": 1
+                  }
+                },
+                {
+                  "index": 1,
+                  "value_data": {
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            {
+              "matchName": "ADBE Mirror",
+              "name": "Mirror",
+              "properties": [
+                {
+                  "index": 1,
+                  "value_data": {
+                    "value": [
+                      960,
+                      540
+                    ]
+                  }
+                },
+                {
+                  "index": 2,
+                  "value_data": {
+                    "value": 0
+                  }
+                }
+              ]
+            },
+            {
+              "matchName": "ADBE 4ColorGradient",
+              "name": "4-Color Gradient",
+              "properties": [
+                {
+                  "index": 3,
+                  "value_data": {
+                    "value": [
+                      1,
+                      0,
+                      0
+                    ]
+                  }
+                },
+                {
+                  "index": 5,
+                  "value_data": {
+                    "value": [
+                      0,
+                      1,
+                      0
+                    ]
+                  }
+                },
+                {
+                  "index": 7,
+                  "value_data": {
+                    "value": [
+                      0,
+                      0,
+                      1
+                    ]
+                  }
+                },
+                {
+                  "index": 10,
+                  "value_data": {
+                    "value": [
+                      1,
+                      1,
+                      0
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Logo_Comp",
+          "type": "Pre-comp",
+          "refId": "Logo_Comp",
+          "properties": {
+            "Transform.Position": {
+              "value": [
+                960,
+                540
+              ]
+            },
+            "Transform.Scale": {
+              "value": [
+                52,
+                52,
+                100
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Main",
+      "width": 1920,
+      "height": 1080,
+      "frameRate": 30,
+      "duration": 180,
+      "layers": [
+        {
+          "name": "TechBG",
+          "type": "Footage",
+          "assetId": "asset_bg",
+          "properties": {
+            "Transform.Scale": {
+              "value": [
+                190,
+                190,
+                100
+              ]
+            }
+          }
+        },
+        {
+          "name": "Visualizer_PreComp",
+          "type": "Pre-comp",
+          "refId": "Visualizer_PreComp",
+          "effects": [
+            {
+              "matchName": "ADBE Magnify",
+              "name": "Magnify",
+              "properties": [
+                {
+                  "index": 3,
+                  "value_data": {
+                    "value": 100,
+                    "expression": "value + comp(\"Song\").layer(\"Audio Amplitude\").effect(\"Both Channels\")(\"Slider\")/4"
+                  }
+                },
+                {
+                  "index": 5,
+                  "value_data": {
+                    "value": 1100
+                  }
+                },
+                {
+                  "index": 9,
+                  "value_data": {
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Sound",
+          "type": "Audio",
+          "assetId": "asset_audio"
+        }
+      ]
+    }
+  ]
+}

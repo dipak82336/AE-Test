@@ -1,0 +1,123 @@
+aigenVersion: 3.0
+
+projectSettings:
+  bitsPerChannel: 16
+
+assets:
+  - id: "img_front_34"
+    path: "e:\\Python\\Data\\Bugatti Centodieci Image\\bugatti_front_34.png"
+  - id: "img_front_detail"
+    path: "e:\\Python\\Data\\Bugatti Centodieci Image\\bugatti_front_detail.png"
+
+compositions:
+  - name: "Death_X_Dealer_Shake_Improved"
+    width: 1920
+    height: 1080
+    duration: 4
+    frameRate: 60
+    layers:
+      # --- CLIP 1 (OUTGOING) ---
+      # Layer 4 (Bottom)
+      - name: "Img_Front_34"
+        type: "Footage"
+        assetId: "img_front_34"
+        startTime: 0
+        outPoint: 2.0
+        properties:
+          "Transform.Scale": { value: [100, 100] }
+          "Transform.Position": { value: [960, 540] }
+
+      # --- CLIP 2 (INCOMING) ---
+      # Layer 3 (Middle)
+      - name: "Img_Front_Detail"
+        type: "Footage"
+        assetId: "img_front_detail"
+        startTime: 1.5
+        properties:
+          "Transform.Opacity": {
+            keyframes: [
+              { time: 0, value: 0, outEase: { speed: 0, influence: 80 } },
+              { time: 0.5, value: 100, inEase: { speed: 0, influence: 80 } }
+            ]
+          }
+          "Transform.Scale": { value: [100, 100] }
+          "Transform.Position": { value: [960, 540] }
+
+      # --- ADJUSTMENT LAYER: SHAKE EFFECT ---
+      # Layer 2 (Top of footage)
+      - name: "Shake_Adjustment"
+        type: "Solid"
+        duration: 0.5
+        startTime: 1.5
+        outPoint: 2.0
+        properties: { sourceParameters: { color: [0, 0, 0] } }
+        attributes: { adjustmentLayer: true }
+        effects:
+          # 1. Motion Tile
+          - type: "Motion Tile"
+            matchName: "ADBE Tile"
+            properties:
+              "Output Width": { value: 200 }
+              "Output Height": { value: 200 }
+              "Mirror Edges": { value: true }
+          
+          # 2. Transform (Shake + Scale Punch)
+          - type: "Transform"
+            matchName: "ADBE Geometry2"
+            properties:
+              "Position": { 
+                keyframes: [
+                  { time: 0, value: [960, 540] },
+                  # Harder Shake
+                  { time: 0.05, value: [960, 350], inEase: { speed: 0, influence: 60 }, outEase: { speed: 0, influence: 60 } },
+                  { time: 0.10, value: [960, 730], inEase: { speed: 0, influence: 60 }, outEase: { speed: 0, influence: 60 } },
+                  { time: 0.15, value: [960, 450] },
+                  { time: 0.20, value: [960, 630] },
+                  { time: 0.25, value: [960, 540] }
+                ]
+              }
+              "Scale Height": {
+                keyframes: [
+                  { time: 0, value: 100 },
+                  { time: 0.05, value: 115, inEase: { speed: 0, influence: 50 }, outEase: { speed: 0, influence: 50 } },
+                  { time: 0.3, value: 100 }
+                ]
+              }
+              "Scale Width": {
+                keyframes: [
+                  { time: 0, value: 100 },
+                  { time: 0.05, value: 115, inEase: { speed: 0, influence: 50 }, outEase: { speed: 0, influence: 50 } },
+                  { time: 0.3, value: 100 }
+                ]
+              }
+              "Rotation": {
+                keyframes: [
+                  { time: 0, value: 0 },
+                  { time: 0.05, value: 3 },
+                  { time: 0.10, value: -3 },
+                  { time: 0.25, value: 0 }
+                ]
+              }
+
+      # --- IMPACT FLASH ---
+      # Layer 1 (Very Top)
+      - name: "Impact_Flash"
+        type: "Solid"
+        duration: 0.5
+        startTime: 1.5
+        outPoint: 2.0
+        properties: 
+          sourceParameters: { color: [1, 1, 1] } # White
+          "Transform.Opacity": {
+            keyframes: [
+              # Flash 1 (Start)
+              { time: 0, value: 0 },
+              { time: 0.01, value: 50 },
+              { time: 0.03, value: 0 },
+              
+              # Flash 2 (End)
+              { time: 0.47, value: 0 },
+              { time: 0.49, value: 50 },
+              { time: 0.50, value: 0 }
+            ]
+          }

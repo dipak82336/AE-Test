@@ -1,0 +1,827 @@
+{
+  "projectSettings": {
+    "width": 1920,
+    "height": 1080,
+    "frameRate": 30,
+    "duration": 10.0
+  },
+  "assets": [],
+  "compositions": [
+    {
+      "name": "ProgressBar_Simple",
+      "width": 1920,
+      "height": 1080,
+      "duration": 10.0,
+      "frameRate": 30,
+      "layers": [
+        {
+          "name": "Main Title",
+          "type": "Text",
+          "sourceText": "SIMPLE PROGRESS BARS",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "value": [
+                  960,
+                  100
+                ]
+              }
+            },
+            "Text": {
+              "Source Text": {
+                "value": {
+                  "font": "Arial-BoldMT",
+                  "fontSize": 60,
+                  "fillColor": [
+                    1,
+                    1,
+                    1
+                  ],
+                  "justification": "CENTER"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Label 1",
+          "type": "Text",
+          "sourceText": "TYPE 1: STRIPED & SKEWED",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "value": [
+                  960,
+                  250
+                ]
+              }
+            },
+            "Text": {
+              "Source Text": {
+                "value": {
+                  "font": "Arial-BoldMT",
+                  "fontSize": 30,
+                  "fillColor": [
+                    0.8,
+                    0.8,
+                    0.8
+                  ],
+                  "justification": "CENTER"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Bar1_Border",
+          "type": "Shape",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "value": [
+                  960,
+                  350
+                ]
+              },
+              "Skew": {
+                "value": -30
+              }
+            },
+            "Contents": [
+              {
+                "type": "Rect",
+                "properties": {
+                  "Size": {
+                    "value": [
+                      800,
+                      60
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "Stroke",
+                "properties": {
+                  "Color": {
+                    "value": [
+                      1,
+                      1,
+                      1
+                    ]
+                  },
+                  "Stroke Width": {
+                    "value": 4
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "Bar1_Fill",
+          "type": "Shape",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "value": [
+                  960,
+                  350
+                ]
+              },
+              "Skew": {
+                "value": 30
+              },
+              "Scale": {
+                "value": [
+                  -100,
+                  100
+                ]
+              }
+            },
+            "Contents": [
+              {
+                "type": "Rect",
+                "properties": {
+                  "Size": {
+                    "value": [
+                      800,
+                      0
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "Stroke",
+                "properties": {
+                  "Color": {
+                    "value": [
+                      1,
+                      0.5,
+                      0
+                    ]
+                  },
+                  "Stroke Width": {
+                    "value": 50
+                  },
+                  "Dash": {
+                    "value": 15
+                  },
+                  "Gap": {
+                    "value": 10
+                  }
+                }
+              },
+              {
+                "type": "Trim Paths",
+                "properties": {
+                  "End": {
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": 0
+                      },
+                      {
+                        "time": 4,
+                        "value": 50
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "Bar1_Percent",
+          "type": "Text",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "value": [
+                  960,
+                  450
+                ]
+              }
+            },
+            "Text": {
+              "Source Text": {
+                "value": {
+                  "font": "Arial-BoldMT",
+                  "fontSize": 40,
+                  "fillColor": [
+                    1,
+                    0.5,
+                    0
+                  ],
+                  "justification": "CENTER"
+                },
+                "expression": "var endVal = thisComp.layer(\"Bar1_Fill\").content(\"Trim Paths 1\").end;\nMath.round(endVal * 2) + \"%\";\n"
+              }
+            }
+          }
+        },
+        {
+          "name": "Label 2",
+          "type": "Text",
+          "sourceText": "TYPE 2: ROUNDED CAPSULE",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "value": [
+                  960,
+                  650
+                ]
+              }
+            },
+            "Text": {
+              "Source Text": {
+                "value": {
+                  "font": "Arial-BoldMT",
+                  "fontSize": 30,
+                  "fillColor": [
+                    0.8,
+                    0.8,
+                    0.8
+                  ],
+                  "justification": "CENTER"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Bar2_BG",
+          "type": "Shape",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "value": [
+                  960,
+                  750
+                ]
+              }
+            },
+            "Contents": [
+              {
+                "type": "Rect",
+                "properties": {
+                  "Size": {
+                    "value": [
+                      800,
+                      0
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "Stroke",
+                "properties": {
+                  "Color": {
+                    "value": [
+                      0.2,
+                      0.2,
+                      0.2
+                    ]
+                  },
+                  "Stroke Width": {
+                    "value": 50
+                  },
+                  "Line Cap": {
+                    "value": 2
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "Bar2_Fill",
+          "type": "Shape",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "value": [
+                  960,
+                  750
+                ]
+              },
+              "Scale": {
+                "value": [
+                  -100,
+                  100
+                ]
+              }
+            },
+            "Contents": [
+              {
+                "type": "Rect",
+                "properties": {
+                  "Size": {
+                    "value": [
+                      800,
+                      0
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "Stroke",
+                "properties": {
+                  "Color": {
+                    "value": [
+                      0,
+                      0.8,
+                      1
+                    ]
+                  },
+                  "Stroke Width": {
+                    "value": 50
+                  },
+                  "Line Cap": {
+                    "value": 2
+                  }
+                }
+              },
+              {
+                "type": "Trim Paths",
+                "properties": {
+                  "End": {
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": 0
+                      },
+                      {
+                        "time": 4,
+                        "value": 50
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "Bar2_Percent",
+          "type": "Text",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "value": [
+                  960,
+                  850
+                ]
+              }
+            },
+            "Text": {
+              "Source Text": {
+                "value": {
+                  "font": "Arial-BoldMT",
+                  "fontSize": 40,
+                  "fillColor": [
+                    0,
+                    0.8,
+                    1
+                  ],
+                  "justification": "CENTER"
+                },
+                "expression": "var endVal = thisComp.layer(\"Bar2_Fill\").content(\"Trim Paths 1\").end;\nMath.round(endVal * 2) + \"%\";\n"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "ProgressBar_Complex",
+      "width": 1920,
+      "height": 1080,
+      "duration": 10.0,
+      "frameRate": 30,
+      "layers": [
+        {
+          "name": "BG Solid",
+          "type": "Solid",
+          "properties": {
+            "sourceParameters": {
+              "color": [
+                0.05,
+                0.05,
+                0.08
+              ]
+            }
+          }
+        },
+        {
+          "name": "Main Title",
+          "type": "Text",
+          "sourceText": "ADVANCED HUD LOADERS",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "value": [
+                  960,
+                  100
+                ]
+              }
+            },
+            "Text": {
+              "Source Text": {
+                "value": {
+                  "font": "Arial-BoldMT",
+                  "fontSize": 60,
+                  "fillColor": [
+                    1,
+                    1,
+                    1
+                  ],
+                  "justification": "CENTER",
+                  "tracking": 50
+                }
+              }
+            }
+          },
+          "effects": []
+        },
+        {
+          "name": "Label 1",
+          "type": "Text",
+          "sourceText": "RADIAL DATA STREAM",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "value": [
+                  480,
+                  800
+                ]
+              }
+            },
+            "Text": {
+              "Source Text": {
+                "value": {
+                  "font": "Arial-BoldMT",
+                  "fontSize": 30,
+                  "fillColor": [
+                    0.4,
+                    0.8,
+                    0.4
+                  ],
+                  "justification": "CENTER",
+                  "tracking": 10
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "HUD_Circle_Track",
+          "type": "Shape",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "value": [
+                  480,
+                  540
+                ]
+              },
+              "Opacity": {
+                "value": 30
+              }
+            },
+            "Contents": [
+              {
+                "type": "Ellipse",
+                "properties": {
+                  "Size": {
+                    "value": [
+                      400,
+                      400
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "Stroke",
+                "properties": {
+                  "Color": {
+                    "value": [
+                      0.4,
+                      0.8,
+                      0.4
+                    ]
+                  },
+                  "Stroke Width": {
+                    "value": 2
+                  },
+                  "Dash": {
+                    "value": 10
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "HUD_Circle_Fill",
+          "type": "Shape",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "value": [
+                  480,
+                  540
+                ]
+              },
+              "Rotation": {
+                "value": -90
+              }
+            },
+            "Contents": [
+              {
+                "type": "Ellipse",
+                "properties": {
+                  "Size": {
+                    "value": [
+                      350,
+                      350
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "Stroke",
+                "properties": {
+                  "Color": {
+                    "value": [
+                      0.2,
+                      1,
+                      0.5
+                    ]
+                  },
+                  "Stroke Width": {
+                    "value": 20
+                  },
+                  "Line Cap": {
+                    "value": 2
+                  }
+                }
+              },
+              {
+                "type": "Trim Paths",
+                "properties": {
+                  "End": {
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": 0
+                      },
+                      {
+                        "time": 4,
+                        "value": 75,
+                        "outEase": {
+                          "speed": 0,
+                          "influence": 50
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "effects": []
+        },
+        {
+          "name": "HUD_Percent",
+          "type": "Text",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "value": [
+                  480,
+                  540
+                ]
+              }
+            },
+            "Text": {
+              "Source Text": {
+                "value": {
+                  "font": "Arial-BoldMT",
+                  "fontSize": 80,
+                  "fillColor": [
+                    1,
+                    1,
+                    1
+                  ],
+                  "justification": "CENTER"
+                },
+                "expression": "var v = thisComp.layer(\"HUD_Circle_Fill\").content(\"Trim Paths 1\").end;\nMath.round(v) + \"%\";\n"
+              }
+            }
+          }
+        },
+        {
+          "name": "Label 2",
+          "type": "Text",
+          "sourceText": "SYSTEM UPLOAD",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "value": [
+                  1440,
+                  400
+                ]
+              }
+            },
+            "Text": {
+              "Source Text": {
+                "value": {
+                  "font": "Arial-BoldMT",
+                  "fontSize": 30,
+                  "fillColor": [
+                    0,
+                    0.8,
+                    1
+                  ],
+                  "justification": "CENTER",
+                  "tracking": 10
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Cyber_Container",
+          "type": "Shape",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "value": [
+                  1440,
+                  500
+                ]
+              }
+            },
+            "Contents": [
+              {
+                "type": "Rect",
+                "properties": {
+                  "Size": {
+                    "value": [
+                      820,
+                      80
+                    ]
+                  },
+                  "Roundness": {
+                    "value": 10
+                  }
+                }
+              },
+              {
+                "type": "Stroke",
+                "properties": {
+                  "Color": {
+                    "value": [
+                      0,
+                      0.8,
+                      1
+                    ]
+                  },
+                  "Stroke Width": {
+                    "value": 2
+                  }
+                }
+              },
+              {
+                "type": "Fill",
+                "properties": {
+                  "Color": {
+                    "value": [
+                      0,
+                      0.1,
+                      0.2
+                    ]
+                  },
+                  "Opacity": {
+                    "value": 50
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "Cyber_Fill",
+          "type": "Shape",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "value": [
+                  1440,
+                  500
+                ]
+              },
+              "Scale": {
+                "value": [
+                  -100,
+                  100
+                ]
+              }
+            },
+            "Contents": [
+              {
+                "type": "Rect",
+                "properties": {
+                  "Size": {
+                    "value": [
+                      800,
+                      0
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "Stroke",
+                "properties": {
+                  "Color": {
+                    "value": [
+                      0,
+                      0.9,
+                      1
+                    ]
+                  },
+                  "Stroke Width": {
+                    "value": 60
+                  },
+                  "Dash": {
+                    "value": 4
+                  },
+                  "Gap": {
+                    "value": 4
+                  }
+                }
+              },
+              {
+                "type": "Trim Paths",
+                "properties": {
+                  "End": {
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": 0
+                      },
+                      {
+                        "time": 2,
+                        "value": 40
+                      },
+                      {
+                        "time": 2.5,
+                        "value": 40
+                      },
+                      {
+                        "time": 5,
+                        "value": 50
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "effects": []
+        },
+        {
+          "name": "Cyber_Percent",
+          "type": "Text",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "value": [
+                  1440,
+                  600
+                ]
+              }
+            },
+            "Text": {
+              "Source Text": {
+                "value": {
+                  "font": "Arial-BoldMT",
+                  "fontSize": 50,
+                  "fillColor": [
+                    0,
+                    0.8,
+                    1
+                  ],
+                  "justification": "CENTER",
+                  "tracking": 5
+                },
+                "expression": "var v = thisComp.layer(\"Cyber_Fill\").content(\"Trim Paths 1\").end;\n\"LOADING: \" + Math.round(v * 2) + \"%\"; \n"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

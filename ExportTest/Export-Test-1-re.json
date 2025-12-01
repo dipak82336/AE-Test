@@ -1,0 +1,285 @@
+{
+  "projectSettings": {
+    "width": 1920,
+    "height": 1080,
+    "frameRate": 60,
+    "duration": 4,
+    "bitsPerChannel": 16
+  },
+  "assets": [
+    {
+      "id": "asset_450",
+      "path": "E:\\Python\\changed\\bugatti_front_detail_fixed_fixed.png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "asset_449",
+      "path": "E:\\Python\\changed\\bugatti_front_34_fixed_fixed.png",
+      "width": 1024,
+      "height": 1024
+    }
+  ],
+  "compositions": [
+    {
+      "name": "Death_X_Dealer_Shake_Improved",
+      "width": 1920,
+      "height": 1080,
+      "frameRate": 60,
+      "duration": 4,
+      "layers": [
+        {
+          "name": "Img_Front_34",
+          "type": "Footage",
+          "assetId": "asset_449",
+          "inPoint": 0,
+          "outPoint": 2,
+          "startTime": 0,
+          "properties": {
+            "Transform.Position": {
+              "value": [
+                960,
+                452,
+                0
+              ]
+            },
+            "Transform.X Position": {
+              "value": 0
+            },
+            "Transform.Y Position": {
+              "value": 0
+            },
+            "Transform.Scale": {
+              "value": [
+                200,
+                200,
+                100
+              ]
+            }
+          }
+        },
+        {
+          "name": "Img_Front_Detail",
+          "type": "Footage",
+          "assetId": "asset_450",
+          "inPoint": 1.5,
+          "outPoint": 5.5,
+          "startTime": 1.5,
+          "properties": {
+            "Transform.Position": {
+              "value": [
+                1117,
+                540,
+                0
+              ]
+            },
+            "Transform.X Position": {
+              "value": 0
+            },
+            "Transform.Y Position": {
+              "value": 0
+            },
+            "Transform.Scale": {
+              "value": [
+                225,
+                225,
+                100
+              ]
+            },
+            "Transform.Opacity": {
+              "animated": true,
+              "keyframes": [
+                {
+                  "time": 0,
+                  "value": 0
+                },
+                {
+                  "time": 0.5,
+                  "value": 100
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Shake_Adjustment",
+          "type": "Solid",
+          "inPoint": 1.5,
+          "outPoint": 2,
+          "startTime": 1.5,
+          "attributes": {
+            "adjustmentLayer": true
+          },
+          "properties": {
+            "sourceParameters": {
+              "color": [
+                0,
+                0,
+                0
+              ]
+            },
+            "Transform.X Position": {
+              "value": 0
+            },
+            "Transform.Y Position": {
+              "value": 0
+            }
+          },
+          "effects": [
+            {
+              "matchName": "ADBE Tile",
+              "name": "Motion Tile",
+              "properties": [
+                {
+                  "index": 4,
+                  "value_data": {
+                    "value": 200
+                  }
+                },
+                {
+                  "index": 5,
+                  "value_data": {
+                    "value": 200
+                  }
+                },
+                {
+                  "index": 6,
+                  "value_data": {
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            {
+              "matchName": "ADBE Geometry2",
+              "name": "Transform",
+              "properties": [
+                {
+                  "index": 2,
+                  "value_data": {
+                    "animated": true,
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": [
+                          960,
+                          540
+                        ]
+                      },
+                      {
+                        "time": 0.05,
+                        "value": [
+                          960,
+                          350
+                        ]
+                      },
+                      {
+                        "time": 0.1,
+                        "value": [
+                          960,
+                          730
+                        ]
+                      },
+                      {
+                        "time": 0.15,
+                        "value": [
+                          960,
+                          450
+                        ]
+                      },
+                      {
+                        "time": 0.2,
+                        "value": [
+                          960,
+                          630
+                        ]
+                      },
+                      {
+                        "time": 0.25,
+                        "value": [
+                          960,
+                          540
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "index": 8,
+                  "value_data": {
+                    "animated": true,
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": 0
+                      },
+                      {
+                        "time": 0.05,
+                        "value": 3
+                      },
+                      {
+                        "time": 0.1,
+                        "value": -3
+                      },
+                      {
+                        "time": 0.25,
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Impact_Flash",
+          "type": "Solid",
+          "inPoint": 1.5,
+          "outPoint": 2,
+          "startTime": 1.5,
+          "properties": {
+            "sourceParameters": {
+              "color": [
+                1,
+                1,
+                1
+              ]
+            },
+            "Transform.X Position": {
+              "value": 0
+            },
+            "Transform.Y Position": {
+              "value": 0
+            },
+            "Transform.Opacity": {
+              "animated": true,
+              "keyframes": [
+                {
+                  "time": 0,
+                  "value": 0
+                },
+                {
+                  "time": 0.05,
+                  "value": 50
+                },
+                {
+                  "time": 0.13333333333333,
+                  "value": 0
+                },
+                {
+                  "time": 0.21666666666667,
+                  "value": 50
+                },
+                {
+                  "time": 0.3,
+                  "value": 0
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

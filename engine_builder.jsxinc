@@ -1,0 +1,169 @@
+/*************************************************************************
+ * engine_builder.jsxinc
+ *
+ * Description: Universal Builder for AIGEN v3.1.
+ * COMPATIBILITY: Optimized for AE 2022, 2023, 2024, 2025.
+ * FEATURES: Smart Track Mattes, Camera Fixes, Auto-Parenting.
+ *************************************************************************/
+
+var AEGP = AEGP || {};
+
+AEGP.buildComposition = function(compData, existingComps, importedAssets) {
+    var newComp = app.project.items.addComp(compData.name, compData.width, compData.height, 1.0, compData.duration, compData.frameRate);
+    
+    // Markers
+    var markersMap = {};
+    if (compData.markers) {
+        for (var i = 0; i < compData.markers.length; i++) {
+            var markerData = compData.markers[i];
+            var markerTime = parseFloat(markerData.time);
+            newComp.markerProperty.setValueAtTime(markerTime, new MarkerValue(markerData.name));
+            markersMap[markerData.name] = markerTime;
+        }
+    }
+
+    var layersData = compData.layers || [];
+    var createdLayers = {};
+
+    // --- PASS 1: Creation ---
+    for (var j = 0; j < layersData.length; j++) {
+        var layerData = layersData[j];
+        try {
+            var newLayer = AEGP.createLayer(newComp, layerData, existingComps, importedAssets, markersMap);
+            if (newLayer) { createdLayers[layerData.name] = newLayer; }
+        } catch(e) {
+            alert("Layer Creation Error (" + layerData.name + "): " + e.toString());
+        }
+    }
+
+    // --- PASS 2: Properties & Attributes ---
+    for (var k = 0; k < layersData.length; k++) {
+        var layerData = layersData[k];
+        var currentLayer = createdLayers[layerData.name];
+        if (!currentLayer) continue;
+        
+        if (layerData.attributes) { AEGP.applyLayerAttributes(currentLayer, layerData.attributes); }
+        if (layerData.properties) { AEGP.applyPropertiesRecursive(currentLayer, layerData.properties, markersMap, currentLayer.inPoint); }
+        if (layerData.effects) { AEGP.applyEffects(currentLayer, layerData.effects, markersMap, currentLayer.inPoint); }
+        if (layerData.masks) { AEGP.applyMasks(currentLayer, layerData.masks, markersMap, currentLayer.inPoint); }
+        if (layerData.textAnimators) { AEGP.buildTextAnimators(currentLayer, layerData.textAnimators, markersMap, currentLayer.inPoint); }
+    }
+
+    // --- PASS 3: Parenting ---
+    for (var p = 0; p < layersData.length; p++) {
+        var layerData = layersData[p];
+        var currentLayer = createdLayers[layerData.name];
+        if (currentLayer && layerData.parent && createdLayers[layerData.parent]) {
+            currentLayer.parent = createdLayers[layerData.parent];
+        }
+    }
+
+    // --- PASS 4: SMART TRACK MATTES (Universal Fix) ---
+    for (var m = 0; m < layersData.length; m++) {
+        var layerData = layersData[m];
+        var currentLayer = createdLayers[layerData.name];
+        
+        if (currentLayer && layerData.attributes && layerData.attributes.trackMatte) {
+            var matteInfo = layerData.attributes.trackMatte;
+            if (matteInfo.layer) {
+                var matteLayer = createdLayers[matteInfo.layer];
+                if (matteLayer) {
+                    AEGP.applySmartTrackMatte(currentLayer, matteLayer, matteInfo.mode);
+                } else {
+                    $.writeln("Warning: Matte layer '" + matteInfo.layer + "' not found for '" + currentLayer.name + "'");
+                }
+            }
+        }
+    }
+
+    // --- PASS 5: Alignment ---
+    for (var n = 0; n < layersData.length; n++) {
+        var layerData = layersData[n];
+        var currentLayer = createdLayers[layerData.name];
+        if (currentLayer && layerData.alignment) {
+            AEGP.applyAlignment(currentLayer, layerData.alignment, newComp);
+        }
+    }
+
+    return newComp;
+};
+
+AEGP.createLayer = function(targetComp, layerData, existingComps, importedAssets, markersMap) {
+    var newLayer = null;
+    var name = layerData.name || "Layer";
+    var duration = layerData.duration || targetComp.duration;
+    
+    switch (layerData.type) {
+        case "Text": 
+            newLayer = targetComp.layers.addText(layerData.sourceText || ""); 
+            break;
+        case "Solid": 
+            var color = (layerData.properties && layerData.properties.sourceParameters && layerData.properties.sourceParameters.color) ? layerData.properties.sourceParameters.color : [0, 0, 0]; 
+            newLayer = targetComp.layers.addSolid(color, name, targetComp.width, targetComp.height, 1, duration); 
+            break;
+        case "Shape": 
+            newLayer = targetComp.layers.addShape(); 
+            break;
+        case "Null": 
+            newLayer = targetComp.layers.addNull(); 
+            break;
+        case "Camera": 
+            newLayer = targetComp.layers.addCamera(name, [targetComp.width/2, targetComp.height/2]); 
+            break;
+        case "Light": 
+            newLayer = targetComp.layers.addLight(name, [targetComp.width/2, targetComp.height/2]); 
+            break;
+        case "Pre-comp": 
+            var compId = layerData.refId || layerData.source;
+            var sourceComp = existingComps[compId]; 
+            if (sourceComp) { newLayer = targetComp.layers.add(sourceComp, duration); } 
+            else { throw new Error("Pre-comp source '" + compId + "' NOT FOUND."); } 
+            break;
+        case "Footage": 
+        case "Audio":
+            var sourceItem = importedAssets[layerData.assetId]; 
+            if (sourceItem) { newLayer = targetComp.layers.add(sourceItem, duration); } 
+            else { throw new Error("Asset ID '" + layerData.assetId + "' NOT FOUND."); } 
+            break;
+        default: 
+            throw new Error("Unknown layer type: " + layerData.type);
+    }
+    
+    if (newLayer) {
+        newLayer.name = name;
+        // Safe Time Resolving - FIXED ORDER: startTime MUST be set first!
+        if (layerData.startTime !== undefined) newLayer.startTime = AEGP.resolveTimeValue(layerData.startTime, markersMap);
+        if (layerData.inPoint !== undefined) newLayer.inPoint = AEGP.resolveTimeValue(layerData.inPoint, markersMap);
+        if (layerData.outPoint !== undefined) newLayer.outPoint = AEGP.resolveTimeValue(layerData.outPoint, markersMap);
+    }
+    return newLayer;
+};
+
+// --- NEW: SMART TRACK MATTE FUNCTION ---
+AEGP.applySmartTrackMatte = function(layer, matteLayer, modeString) {
+    var aeVersion = parseFloat(app.version);
+    var mode = AEGP.getTrackMatteType(modeString);
+    
+    if (aeVersion >= 23.0) {
+        // AE 2023+ Logic (Pick-whip style, layer can be anywhere)
+        try {
+            layer.setTrackMatte(matteLayer, mode);
+        } catch(e) {
+             // Fallback if strict enum fails
+             layer.setTrackMatte(matteLayer, TrackMatteType.ALPHA);
+        }
+    } else {
+        // Legacy Logic (Layer MUST be directly above)
+        // We force move the matte layer to be index - 1
+        matteLayer.moveBefore(layer);
+        
+        // Verify checking strict Types for older AE
+        if (modeString.toLowerCase().indexOf("inverted") > -1) {
+             if (modeString.toLowerCase().indexOf("luma") > -1) layer.trackMatteType = TrackMatteType.LUMA_INVERTED;
+             else layer.trackMatteType = TrackMatteType.ALPHA_INVERTED;
+        } else {
+             if (modeString.toLowerCase().indexOf("luma") > -1) layer.trackMatteType = TrackMatteType.LUMA;
+             else layer.trackMatteType = TrackMatteType.ALPHA;
+        }
+    }
+};

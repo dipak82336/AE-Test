@@ -1,0 +1,324 @@
+{
+  "projectSettings": {
+    "bitsPerChannel": 16
+  },
+  "assets": [
+    {
+      "id": "img_front_34",
+      "path": "E:\\Python\\changed\\bugatti_front_34_fixed.png"
+    },
+    {
+      "id": "img_front_detail",
+      "path": "E:\\Python\\changed\\bugatti_front_detail_fixed.png"
+    }
+  ],
+  "compositions": [
+    {
+      "name": "Death_X_Dealer_Shake_Improved",
+      "width": 1920,
+      "height": 1080,
+      "duration": 4,
+      "frameRate": 60,
+      "layers": [
+        {
+          "name": "Img_Front_34",
+          "type": "Footage",
+          "assetId": "img_front_34",
+          "startTime": 0,
+          "outPoint": 2.0,
+          "properties": {
+            "Transform.Scale": {
+              "value": [
+                100,
+                100
+              ]
+            },
+            "Transform.Position": {
+              "value": [
+                960,
+                540
+              ]
+            }
+          }
+        },
+        {
+          "name": "Img_Front_Detail",
+          "type": "Footage",
+          "assetId": "img_front_detail",
+          "startTime": 1.5,
+          "properties": {
+            "Transform.Opacity": {
+              "keyframes": [
+                {
+                  "time": 0,
+                  "value": 0,
+                  "outEase": {
+                    "speed": 0,
+                    "influence": 80
+                  }
+                },
+                {
+                  "time": 0.5,
+                  "value": 100,
+                  "inEase": {
+                    "speed": 0,
+                    "influence": 80
+                  }
+                }
+              ]
+            },
+            "Transform.Scale": {
+              "value": [
+                100,
+                100
+              ]
+            },
+            "Transform.Position": {
+              "value": [
+                960,
+                540
+              ]
+            }
+          }
+        },
+        {
+          "name": "Shake_Adjustment",
+          "type": "Solid",
+          "duration": 0.5,
+          "startTime": 1.5,
+          "outPoint": 2.0,
+          "properties": {
+            "sourceParameters": {
+              "color": [
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          "attributes": {
+            "adjustmentLayer": true
+          },
+          "effects": [
+            {
+              "matchName": "ADBE Tile",
+              "name": "Motion Tile",
+              "properties": [
+                {
+                  "index": 4,
+                  "value_data": {
+                    "value": 200
+                  }
+                },
+                {
+                  "index": 5,
+                  "value_data": {
+                    "value": 200
+                  }
+                },
+                {
+                  "index": 6,
+                  "value_data": {
+                    "value": true
+                  }
+                }
+              ]
+            },
+            {
+              "matchName": "ADBE Geometry2",
+              "name": "Transform",
+              "properties": [
+                {
+                  "index": 2,
+                  "value_data": {
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": [
+                          960,
+                          540
+                        ]
+                      },
+                      {
+                        "time": 0.05,
+                        "value": [
+                          960,
+                          350
+                        ],
+                        "inEase": {
+                          "speed": 0,
+                          "influence": 60
+                        },
+                        "outEase": {
+                          "speed": 0,
+                          "influence": 60
+                        }
+                      },
+                      {
+                        "time": 0.1,
+                        "value": [
+                          960,
+                          730
+                        ],
+                        "inEase": {
+                          "speed": 0,
+                          "influence": 60
+                        },
+                        "outEase": {
+                          "speed": 0,
+                          "influence": 60
+                        }
+                      },
+                      {
+                        "time": 0.15,
+                        "value": [
+                          960,
+                          450
+                        ]
+                      },
+                      {
+                        "time": 0.2,
+                        "value": [
+                          960,
+                          630
+                        ]
+                      },
+                      {
+                        "time": 0.25,
+                        "value": [
+                          960,
+                          540
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "index": 4,
+                  "value_data": {
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": 100
+                      },
+                      {
+                        "time": 0.05,
+                        "value": 115,
+                        "inEase": {
+                          "speed": 0,
+                          "influence": 50
+                        },
+                        "outEase": {
+                          "speed": 0,
+                          "influence": 50
+                        }
+                      },
+                      {
+                        "time": 0.3,
+                        "value": 100
+                      }
+                    ]
+                  }
+                },
+                {
+                  "index": 5,
+                  "value_data": {
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": 100
+                      },
+                      {
+                        "time": 0.05,
+                        "value": 115,
+                        "inEase": {
+                          "speed": 0,
+                          "influence": 50
+                        },
+                        "outEase": {
+                          "speed": 0,
+                          "influence": 50
+                        }
+                      },
+                      {
+                        "time": 0.3,
+                        "value": 100
+                      }
+                    ]
+                  }
+                },
+                {
+                  "index": 8,
+                  "value_data": {
+                    "keyframes": [
+                      {
+                        "time": 0,
+                        "value": 0
+                      },
+                      {
+                        "time": 0.05,
+                        "value": 3
+                      },
+                      {
+                        "time": 0.1,
+                        "value": -3
+                      },
+                      {
+                        "time": 0.25,
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Impact_Flash",
+          "type": "Solid",
+          "duration": 0.5,
+          "startTime": 1.5,
+          "outPoint": 2.0,
+          "properties": {
+            "sourceParameters": {
+              "color": [
+                1,
+                1,
+                1
+              ]
+            },
+            "Transform.Opacity": {
+              "keyframes": [
+                {
+                  "time": 0,
+                  "value": 0
+                },
+                {
+                  "time": 0.01,
+                  "value": 50
+                },
+                {
+                  "time": 0.03,
+                  "value": 0
+                },
+                {
+                  "time": 0.47,
+                  "value": 0
+                },
+                {
+                  "time": 0.49,
+                  "value": 50
+                },
+                {
+                  "time": 0.5,
+                  "value": 0
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,143 @@
+projectSettings:
+  width: 1920
+  height: 1080
+  frameRate: 30
+  duration: 180
+  bitsPerChannel: 16
+
+assets:
+  - id: "asset_bg"
+    path: "../../Data/images/TechBG.png"
+  - id: "asset_logo"
+    path: "../../Data/images/Logo.png"
+  - id: "asset_audio"
+    path: "../../Data/Sound/Sound.mp3"
+
+compositions:
+  - name: "Song"
+    width: 1920
+    height: 1080
+    frameRate: 30
+    duration: 180
+    layers:
+      - name: "Audio Amplitude"
+        type: "Null"
+        properties:
+          "Transform.Position": { value: [960, 540] }
+        effects:
+          - type: "Slider Control"
+            matchName: "ADBE Slider Control"
+            name: "Both Channels"
+            properties:
+              "Slider": { value: 0 }
+      - name: "Sound"
+        type: "Audio"
+        assetId: "asset_audio"
+
+  - name: "Logo_Comp"
+    width: 1080
+    height: 1080
+    frameRate: 30
+    duration: 180
+    layers:
+      - name: "Matte"
+        type: "Solid"
+        properties:
+          sourceParameters: { color: [0, 0, 0] } # Black background
+        effects:
+          - type: "Circle"
+            matchName: "ADBE Circle"
+            properties:
+              "Center": { value: [540, 540] }
+              "Radius": { value: 500 }
+              "Color": { value: [1, 1, 1, 1] } # White Circle
+              "Blending Mode": { value: 2 } # Normal (Draws white circle on black)
+      - name: "Logo"
+        type: "Footage"
+        assetId: "asset_logo"
+        properties:
+          "Transform.Position": { value: [540, 540] }
+        attributes:
+          trackMatte:
+            layer: "Matte"
+            mode: "Luma"
+
+  - name: "Visualizer_PreComp"
+    width: 1920
+    height: 1080
+    frameRate: 30
+    duration: 180
+    layers:
+      - name: "Sound"
+        type: "Audio"
+        assetId: "asset_audio"
+      - name: "Audio Spectrum"
+        type: "Solid"
+        properties:
+          sourceParameters: { color: [0, 0, 0] }
+        effects:
+          - type: "Audio Spectrum"
+            matchName: "ADBE Audio Spectrum"
+            properties:
+              "Audio Layer": { value: 3 } # Index 3 is Sound layer (Bottom)
+              "Start Point": { value: [0, 540] }
+              "End Point": { value: [960, 540] }
+              "End Frequency": { value: 125 }
+              "Frequency Bands": { value: 500 }
+              "Maximum Height": { value: 1250 }
+              "Audio Duration": { value: 180 }
+              "Audio Offset": { value: -30 }
+              "Thickness": { value: 7 }
+              "Side Options": { value: 2 }
+              "Inside Color": { value: [1, 1, 1] }
+              "Outside Color": { value: [1, 1, 1] }
+          - type: "Polar Coordinates"
+            matchName: "ADBE Polar Coordinates"
+            properties:
+              "Type of Conversion": { value: 1 } # Polar to Rect
+              "Interpolation": { value: 1 } # 1 = 100%
+          - type: "Mirror"
+            matchName: "ADBE Mirror"
+            properties:
+              "Reflection Center": { value: [960, 540] }
+              "Reflection Angle": { value: 0 }
+          - type: "4-Color Gradient"
+            matchName: "ADBE 4-Color Gradient"
+            properties:
+              "Color 1": { value: [1, 0, 0] }
+              "Color 2": { value: [0, 1, 0] }
+              "Color 3": { value: [0, 0, 1] }
+              "Color 4": { value: [1, 1, 0] }
+      - name: "Logo_Comp"
+        type: "Pre-comp"
+        refId: "Logo_Comp"
+        properties:
+          "Transform.Position": { value: [960, 540] }
+          "Transform.Scale": { value: [52, 52, 100] }
+
+  - name: "Main"
+    width: 1920
+    height: 1080
+    frameRate: 30
+    duration: 180
+    layers:
+      - name: "TechBG"
+        type: "Footage"
+        assetId: "asset_bg"
+        properties:
+          "Transform.Scale": { value: [190, 190, 100] }
+      - name: "Visualizer_PreComp"
+        type: "Pre-comp"
+        refId: "Visualizer_PreComp"
+        effects:
+          - type: "Magnify"
+            matchName: "ADBE Magnify"
+            properties:
+              "Magnification": 
+                value: 100
+                expression: "value + comp(\"Song\").layer(\"Audio Amplitude\").effect(\"Both Channels\")(\"Slider\")/4"
+              "Size": { value: 1100 }
+              "Blending Mode": { value: 1 } # None
+      - name: "Sound"
+        type: "Audio"
+        assetId: "asset_audio"

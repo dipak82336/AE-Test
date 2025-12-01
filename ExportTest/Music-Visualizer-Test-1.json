@@ -1,0 +1,532 @@
+{
+  "projectSettings": {
+    "width": 1920,
+    "height": 1080,
+    "frameRate": 30,
+    "duration": 60,
+    "bitsPerChannel": 16
+  },
+  "assets": [
+    {
+      "id": "asset_1168",
+      "name": "Sound.mp3",
+      "path": "Music-Visualizer-Test-1/Sound.mp3",
+      "width": 0,
+      "height": 0
+    }
+  ],
+  "compositions": [
+    {
+      "name": "Render",
+      "width": 1920,
+      "height": 1080,
+      "frameRate": 30,
+      "duration": 60,
+      "layers": [
+        {
+          "name": "Background Image",
+          "index": 2,
+          "type": "Footage",
+          "inPoint": 0,
+          "outPoint": 60,
+          "startTime": 0,
+          "attributes": {},
+          "assetId": "asset_1170",
+          "properties": {
+            "Transform": {
+              "X Position": {
+                "matchName": "ADBE Position_0",
+                "name": "X Position",
+                "value": 0,
+                "animated": false
+              },
+              "Y Position": {
+                "matchName": "ADBE Position_1",
+                "name": "Y Position",
+                "value": 0,
+                "animated": false
+              },
+              "Scale": {
+                "matchName": "ADBE Scale",
+                "name": "Scale",
+                "value": [
+                  145,
+                  145,
+                  100
+                ],
+                "animated": false
+              },
+              "Rotation": {
+                "matchName": "ADBE Rotate Z",
+                "name": "Rotation",
+                "value": -90,
+                "animated": false
+              }
+            }
+          }
+        },
+        {
+          "name": "MusicVisualizer Pre-comp",
+          "index": 1,
+          "type": "Pre-comp",
+          "inPoint": 0,
+          "outPoint": 60,
+          "startTime": 0,
+          "attributes": {},
+          "refId": "MusicVisualizer",
+          "properties": {
+            "Transform": {
+              "X Position": {
+                "matchName": "ADBE Position_0",
+                "name": "X Position",
+                "value": 0,
+                "animated": false
+              },
+              "Y Position": {
+                "matchName": "ADBE Position_1",
+                "name": "Y Position",
+                "value": 0,
+                "animated": false
+              }
+            }
+          },
+          "effects": {
+            "Magnify": {
+              "matchName": "ADBE Magnify",
+              "name": "Magnify",
+              "properties": {
+                "Magnification": {
+                  "matchName": "ADBE Magnify-0003",
+                  "name": "Magnification",
+                  "value": 155.494659021497,
+                  "animated": false,
+                  "expression": "value + comp(\"Song\").layer(\"Audio Amplitude\").effect(\"Both Channels\")(\"Slider\")/4"
+                },
+                "Size": {
+                  "matchName": "ADBE Magnify-0002",
+                  "name": "Size",
+                  "value": 1100,
+                  "animated": false
+                },
+                "Blending Mode": {
+                  "matchName": "ADBE Magnify-0012",
+                  "name": "Blending Mode",
+                  "value": 1,
+                  "animated": false
+                },
+                "Compositing Options": {
+                  "matchName": "ADBE Effect Built In Params",
+                  "name": "Compositing Options",
+                  "properties": {
+                    "Masks": {
+                      "matchName": "ADBE Effect Mask Parade",
+                      "name": "Masks"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "MusicVisualizer",
+      "width": 1920,
+      "height": 1080,
+      "frameRate": 30,
+      "duration": 60,
+      "layers": [
+        {
+          "name": "Sound.mp3",
+          "index": 3,
+          "type": "Audio",
+          "inPoint": 0,
+          "outPoint": 60,
+          "startTime": 0,
+          "attributes": {},
+          "assetId": "asset_1168",
+          "properties": {
+            "Transform": {
+              "X Position": {
+                "matchName": "ADBE Position_0",
+                "name": "X Position",
+                "value": 0,
+                "animated": false
+              },
+              "Y Position": {
+                "matchName": "ADBE Position_1",
+                "name": "Y Position",
+                "value": 0,
+                "animated": false
+              }
+            }
+          }
+        },
+        {
+          "name": "Visualizer BG",
+          "index": 2,
+          "type": "Solid",
+          "inPoint": 0,
+          "outPoint": 60,
+          "startTime": 0,
+          "attributes": {},
+          "properties": {
+            "sourceParameters": {
+              "color": [
+                0,
+                0,
+                0
+              ]
+            },
+            "Transform": {
+              "X Position": {
+                "matchName": "ADBE Position_0",
+                "name": "X Position",
+                "value": 0,
+                "animated": false
+              },
+              "Y Position": {
+                "matchName": "ADBE Position_1",
+                "name": "Y Position",
+                "value": 0,
+                "animated": false
+              }
+            }
+          },
+          "effects": {
+            "Audio Spectrum": {
+              "matchName": "ADBE AudSpect",
+              "name": "Audio Spectrum",
+              "properties": {
+                "Audio Layer": {
+                  "matchName": "ADBE AudSpect-0001",
+                  "name": "Audio Layer",
+                  "value": 3,
+                  "animated": false
+                },
+                "Start Point": {
+                  "matchName": "ADBE AudSpect-0002",
+                  "name": "Start Point",
+                  "value": [
+                    0,
+                    540
+                  ],
+                  "animated": false
+                },
+                "End Point": {
+                  "matchName": "ADBE AudSpect-0003",
+                  "name": "End Point",
+                  "value": [
+                    960,
+                    540
+                  ],
+                  "animated": false
+                },
+                "Path": {
+                  "matchName": "ADBE AudSpect-0004",
+                  "name": "Path",
+                  "value": 0,
+                  "animated": false
+                },
+                "Start Frequency": {
+                  "matchName": "ADBE AudSpect-0006",
+                  "name": "Start Frequency",
+                  "value": 5,
+                  "animated": false
+                },
+                "End Frequency": {
+                  "matchName": "ADBE AudSpect-0007",
+                  "name": "End Frequency",
+                  "value": 200,
+                  "animated": false
+                },
+                "Frequency bands": {
+                  "matchName": "ADBE AudSpect-0008",
+                  "name": "Frequency bands",
+                  "value": 500,
+                  "animated": false
+                },
+                "Maximum Height": {
+                  "matchName": "ADBE AudSpect-0009",
+                  "name": "Maximum Height",
+                  "value": 1630,
+                  "animated": false
+                },
+                "Audio Duration (milliseconds)": {
+                  "matchName": "ADBE AudSpect-0010",
+                  "name": "Audio Duration (milliseconds)",
+                  "value": 135,
+                  "animated": false
+                },
+                "Audio Offset (milliseconds)": {
+                  "matchName": "ADBE AudSpect-0011",
+                  "name": "Audio Offset (milliseconds)",
+                  "value": -25,
+                  "animated": false
+                },
+                "Thickness": {
+                  "matchName": "ADBE AudSpect-0012",
+                  "name": "Thickness",
+                  "value": 7,
+                  "animated": false
+                },
+                "Inside Color": {
+                  "matchName": "ADBE AudSpect-0014",
+                  "name": "Inside Color",
+                  "value": [
+                    1,
+                    0,
+                    1,
+                    1
+                  ],
+                  "animated": false
+                },
+                "Outside Color": {
+                  "matchName": "ADBE AudSpect-0015",
+                  "name": "Outside Color",
+                  "value": [
+                    1,
+                    0,
+                    1,
+                    1
+                  ],
+                  "animated": false
+                },
+                "Hue Interpolation": {
+                  "matchName": "ADBE AudSpect-0017",
+                  "name": "Hue Interpolation",
+                  "value": 0,
+                  "animated": false
+                },
+                "Side Options": {
+                  "matchName": "ADBE AudSpect-0021",
+                  "name": "Side Options",
+                  "value": 2,
+                  "animated": false
+                },
+                "Compositing Options": {
+                  "matchName": "ADBE Effect Built In Params",
+                  "name": "Compositing Options",
+                  "properties": {
+                    "Masks": {
+                      "matchName": "ADBE Effect Mask Parade",
+                      "name": "Masks"
+                    }
+                  }
+                }
+              }
+            },
+            "Polar Coordinates": {
+              "matchName": "ADBE Polar Coordinates",
+              "name": "Polar Coordinates",
+              "properties": {
+                "Interpolation": {
+                  "matchName": "ADBE Polar Coordinates-0001",
+                  "name": "Interpolation",
+                  "value": 1,
+                  "animated": false
+                },
+                "Type of Conversion": {
+                  "matchName": "ADBE Polar Coordinates-0002",
+                  "name": "Type of Conversion",
+                  "value": 1,
+                  "animated": false
+                },
+                "Compositing Options": {
+                  "matchName": "ADBE Effect Built In Params",
+                  "name": "Compositing Options",
+                  "properties": {
+                    "Masks": {
+                      "matchName": "ADBE Effect Mask Parade",
+                      "name": "Masks"
+                    }
+                  }
+                }
+              }
+            },
+            "Mirror": {
+              "matchName": "ADBE Mirror",
+              "name": "Mirror",
+              "properties": {
+                "Reflection Center": {
+                  "matchName": "ADBE Mirror-0001",
+                  "name": "Reflection Center",
+                  "value": [
+                    960,
+                    540
+                  ],
+                  "animated": false
+                },
+                "Compositing Options": {
+                  "matchName": "ADBE Effect Built In Params",
+                  "name": "Compositing Options",
+                  "properties": {
+                    "Masks": {
+                      "matchName": "ADBE Effect Mask Parade",
+                      "name": "Masks"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Logo Pre-comp",
+          "index": 1,
+          "type": "Pre-comp",
+          "inPoint": 0,
+          "outPoint": 60,
+          "startTime": 0,
+          "attributes": {},
+          "refId": "LogoVisualizer",
+          "properties": {
+            "Transform": {
+              "X Position": {
+                "matchName": "ADBE Position_0",
+                "name": "X Position",
+                "value": 0,
+                "animated": false
+              },
+              "Y Position": {
+                "matchName": "ADBE Position_1",
+                "name": "Y Position",
+                "value": 0,
+                "animated": false
+              },
+              "Scale": {
+                "matchName": "ADBE Scale",
+                "name": "Scale",
+                "value": [
+                  48,
+                  48,
+                  100
+                ],
+                "animated": false
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "LogoVisualizer",
+      "width": 1080,
+      "height": 1080,
+      "frameRate": 30,
+      "duration": 60,
+      "layers": [
+        {
+          "name": "Logo Image",
+          "index": 2,
+          "type": "Footage",
+          "inPoint": 0,
+          "outPoint": 60,
+          "startTime": 0,
+          "attributes": {
+            "trackMatte": {
+              "mode": "Alpha"
+            }
+          },
+          "assetId": "asset_1169",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "matchName": "ADBE Position",
+                "name": "Position",
+                "value": [
+                  556,
+                  1219,
+                  0
+                ],
+                "animated": false
+              },
+              "X Position": {
+                "matchName": "ADBE Position_0",
+                "name": "X Position",
+                "value": 0,
+                "animated": false
+              },
+              "Y Position": {
+                "matchName": "ADBE Position_1",
+                "name": "Y Position",
+                "value": 0,
+                "animated": false
+              },
+              "Scale": {
+                "matchName": "ADBE Scale",
+                "name": "Scale",
+                "value": [
+                  180,
+                  180,
+                  100
+                ],
+                "animated": false
+              }
+            }
+          }
+        },
+        {
+          "name": "Matte Shape",
+          "index": 1,
+          "type": "Shape",
+          "inPoint": 0,
+          "outPoint": 60,
+          "startTime": 0,
+          "attributes": {},
+          "properties": {
+            "Contents": {
+              "Ellipse": {
+                "matchName": "ADBE Vector Shape - Ellipse",
+                "name": "Ellipse",
+                "properties": {
+                  "Size": {
+                    "matchName": "ADBE Vector Ellipse Size",
+                    "name": "Size",
+                    "value": [
+                      1080,
+                      1080
+                    ],
+                    "animated": false
+                  }
+                }
+              },
+              "Fill": {
+                "matchName": "ADBE Vector Graphic - Fill",
+                "name": "Fill",
+                "properties": {
+                  "Color": {
+                    "matchName": "ADBE Vector Fill Color",
+                    "name": "Color",
+                    "value": [
+                      1,
+                      1,
+                      1,
+                      1
+                    ],
+                    "animated": false
+                  }
+                }
+              }
+            },
+            "Transform": {
+              "X Position": {
+                "matchName": "ADBE Position_0",
+                "name": "X Position",
+                "value": 0,
+                "animated": false
+              },
+              "Y Position": {
+                "matchName": "ADBE Position_1",
+                "name": "Y Position",
+                "value": 0,
+                "animated": false
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

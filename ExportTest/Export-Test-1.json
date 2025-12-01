@@ -1,0 +1,413 @@
+{
+  "projectSettings": {
+    "width": 1920,
+    "height": 1080,
+    "frameRate": 60,
+    "duration": 4,
+    "bitsPerChannel": 16
+  },
+  "assets": [
+    {
+      "id": "asset_450",
+      "name": "bugatti_front_detail_fixed.png",
+      "path": "Export-Test-1/bugatti_front_detail_fixed.png",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "asset_449",
+      "name": "bugatti_front_34_fixed.png",
+      "path": "Export-Test-1/bugatti_front_34_fixed.png",
+      "width": 1024,
+      "height": 1024
+    }
+  ],
+  "compositions": [
+    {
+      "name": "Death_X_Dealer_Shake_Improved",
+      "width": 1920,
+      "height": 1080,
+      "frameRate": 60,
+      "duration": 4,
+      "layers": [
+        {
+          "name": "Img_Front_34",
+          "index": 4,
+          "type": "Footage",
+          "inPoint": 0,
+          "outPoint": 2,
+          "startTime": 0,
+          "attributes": {
+            
+          },
+          "assetId": "asset_449",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "matchName": "ADBE Position",
+                "name": "Position",
+                "value": [
+                  960,
+                  452,
+                  0
+                ],
+                "animated": false
+              },
+              "X Position": {
+                "matchName": "ADBE Position_0",
+                "name": "X Position",
+                "value": 0,
+                "animated": false
+              },
+              "Y Position": {
+                "matchName": "ADBE Position_1",
+                "name": "Y Position",
+                "value": 0,
+                "animated": false
+              },
+              "Scale": {
+                "matchName": "ADBE Scale",
+                "name": "Scale",
+                "value": [
+                  200,
+                  200,
+                  100
+                ],
+                "animated": false
+              }
+            }
+          }
+        },
+        {
+          "name": "Img_Front_Detail",
+          "index": 3,
+          "type": "Footage",
+          "inPoint": 1.5,
+          "outPoint": 5.5,
+          "startTime": 1.5,
+          "attributes": {
+            
+          },
+          "assetId": "asset_450",
+          "properties": {
+            "Transform": {
+              "Position": {
+                "matchName": "ADBE Position",
+                "name": "Position",
+                "value": [
+                  1117,
+                  540,
+                  0
+                ],
+                "animated": false
+              },
+              "X Position": {
+                "matchName": "ADBE Position_0",
+                "name": "X Position",
+                "value": 0,
+                "animated": false
+              },
+              "Y Position": {
+                "matchName": "ADBE Position_1",
+                "name": "Y Position",
+                "value": 0,
+                "animated": false
+              },
+              "Scale": {
+                "matchName": "ADBE Scale",
+                "name": "Scale",
+                "value": [
+                  225,
+                  225,
+                  100
+                ],
+                "animated": false
+              },
+              "Opacity": {
+                "matchName": "ADBE Opacity",
+                "name": "Opacity",
+                "value": 0,
+                "animated": true,
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 0.5,
+                    "value": 100
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "name": "Shake_Adjustment",
+          "index": 2,
+          "type": "Solid",
+          "inPoint": 1.5,
+          "outPoint": 2,
+          "startTime": 1.5,
+          "attributes": {
+            "adjustmentLayer": true
+          },
+          "properties": {
+            "sourceParameters": {
+              "color": [
+                0,
+                0,
+                0
+              ]
+            },
+            "Transform": {
+              "X Position": {
+                "matchName": "ADBE Position_0",
+                "name": "X Position",
+                "value": 0,
+                "animated": false
+              },
+              "Y Position": {
+                "matchName": "ADBE Position_1",
+                "name": "Y Position",
+                "value": 0,
+                "animated": false
+              }
+            }
+          },
+          "effects": {
+            "Motion Tile": {
+              "matchName": "ADBE Tile",
+              "name": "Motion Tile",
+              "properties": {
+                "Output Width": {
+                  "matchName": "ADBE Tile-0004",
+                  "name": "Output Width",
+                  "value": 200,
+                  "animated": false
+                },
+                "Output Height": {
+                  "matchName": "ADBE Tile-0005",
+                  "name": "Output Height",
+                  "value": 200,
+                  "animated": false
+                },
+                "Mirror Edges": {
+                  "matchName": "ADBE Tile-0006",
+                  "name": "Mirror Edges",
+                  "value": 1,
+                  "animated": false
+                },
+                "Compositing Options": {
+                  "matchName": "ADBE Effect Built In Params",
+                  "name": "Compositing Options",
+                  "properties": {
+                    "Masks": {
+                      "matchName": "ADBE Effect Mask Parade",
+                      "name": "Masks"
+                    }
+                  }
+                }
+              }
+            },
+            "Transform": {
+              "matchName": "ADBE Geometry2",
+              "name": "Transform",
+              "properties": {
+                "Position": {
+                  "matchName": "ADBE Geometry2-0002",
+                  "name": "Position",
+                  "value": [
+                    960,
+                    540
+                  ],
+                  "animated": true,
+                  "keyframes": [
+                    {
+                      "time": 0,
+                      "value": [
+                        960,
+                        540
+                      ]
+                    },
+                    {
+                      "time": 0.05,
+                      "value": [
+                        960,
+                        350
+                      ]
+                    },
+                    {
+                      "time": 0.1,
+                      "value": [
+                        960,
+                        730
+                      ]
+                    },
+                    {
+                      "time": 0.15,
+                      "value": [
+                        960,
+                        450
+                      ]
+                    },
+                    {
+                      "time": 0.2,
+                      "value": [
+                        960,
+                        630
+                      ]
+                    },
+                    {
+                      "time": 0.25,
+                      "value": [
+                        960,
+                        540
+                      ]
+                    }
+                  ]
+                },
+                "Scale": {
+                  "matchName": "ADBE Geometry2-0003",
+                  "name": "Scale",
+                  "value": 100,
+                  "animated": true,
+                  "keyframes": [
+                    {
+                      "time": 0,
+                      "value": 100
+                    },
+                    {
+                      "time": 0.05,
+                      "value": 115
+                    },
+                    {
+                      "time": 0.3,
+                      "value": 100
+                    }
+                  ]
+                },
+                " ": {
+                  "matchName": "ADBE Geometry2-0004",
+                  "name": " ",
+                  "value": 100,
+                  "animated": true,
+                  "keyframes": [
+                    {
+                      "time": 0,
+                      "value": 100
+                    },
+                    {
+                      "time": 0.05,
+                      "value": 115
+                    },
+                    {
+                      "time": 0.3,
+                      "value": 100
+                    }
+                  ]
+                },
+                "Rotation": {
+                  "matchName": "ADBE Geometry2-0007",
+                  "name": "Rotation",
+                  "value": 0,
+                  "animated": true,
+                  "keyframes": [
+                    {
+                      "time": 0,
+                      "value": 0
+                    },
+                    {
+                      "time": 0.05,
+                      "value": 3
+                    },
+                    {
+                      "time": 0.1,
+                      "value": -3
+                    },
+                    {
+                      "time": 0.25,
+                      "value": 0
+                    }
+                  ]
+                },
+                "Compositing Options": {
+                  "matchName": "ADBE Effect Built In Params",
+                  "name": "Compositing Options",
+                  "properties": {
+                    "Masks": {
+                      "matchName": "ADBE Effect Mask Parade",
+                      "name": "Masks"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Impact_Flash",
+          "index": 1,
+          "type": "Solid",
+          "inPoint": 1.5,
+          "outPoint": 2,
+          "startTime": 1.5,
+          "attributes": {
+            
+          },
+          "properties": {
+            "sourceParameters": {
+              "color": [
+                1,
+                1,
+                1
+              ]
+            },
+            "Transform": {
+              "X Position": {
+                "matchName": "ADBE Position_0",
+                "name": "X Position",
+                "value": 0,
+                "animated": false
+              },
+              "Y Position": {
+                "matchName": "ADBE Position_1",
+                "name": "Y Position",
+                "value": 0,
+                "animated": false
+              },
+              "Opacity": {
+                "matchName": "ADBE Opacity",
+                "name": "Opacity",
+                "value": 0,
+                "animated": true,
+                "keyframes": [
+                  {
+                    "time": 0,
+                    "value": 0
+                  },
+                  {
+                    "time": 0.05,
+                    "value": 50
+                  },
+                  {
+                    "time": 0.13333333333333,
+                    "value": 0
+                  },
+                  {
+                    "time": 0.21666666666667,
+                    "value": 50
+                  },
+                  {
+                    "time": 0.3,
+                    "value": 0
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
